@@ -19,12 +19,12 @@ export const USER = {
     },
     {
       name: "Linkedin",
-      link: "https://github.com/Kshitij978",
+      link: "https://www.linkedin.com/in/kssri/",
       icon: "Linkedin",
     },
     {
       name: "Codepen",
-      link: "https://github.com/Kshitij978",
+      link: "https://codepen.io/Ks145",
       icon: "Codepen",
     },
   ],
