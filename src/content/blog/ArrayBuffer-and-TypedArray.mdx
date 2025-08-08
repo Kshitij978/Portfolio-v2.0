@@ -1,0 +1,177 @@
+---
+title: ArrayBuffer and TypedArray
+description: Dive deep into JavaScript niche concept.
+image: /images/arraybuffer.png
+createdAt: 2024-01-11
+updatedAt: 2024-01-11
+---
+
+So I tried WebGL and...
+
+![meme](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/g57xmc40u1fw08hvkv6f.png)
+
+Jokes aside, I love it but it has a big learning curve and I believe I will get there (hopefully in this life).
+
+Anyways, I've been into Three.js for a while which required me to dig deeper into WebGL world. Since, ArrayBuffer is used frequently in storing vertex and indices information, I wanted to know the internal working of it.
+
+## What is an ArrayBuffer?
+
+A low-level object that represents a fixed-size binary data buffer. It is particularly useful when dealing with binary data, such as working with files, network protocols, or manipulating raw data.
+
+We create it like this:
+
+```JS
+const buffer = new ArrayBuffer(16); // create a buffer of length 16
+console.log(buffer.byteLength); // 16
+```
+
+This allocates a **contiguous** memory area of 16 bytes and pre-fills it with zeroes.
+
+**⚠️ NOTE:** `ArrayBuffer` _is not an Array:_
+
+- **Fixed Size:** Size is set at creation and remains constant.
+- **Binary Data Container:** Holds raw binary data, not traditional array elements.
+- **No Direct Access:** You cannot directly access or modify the contents of an ArrayBuffer using typical array notation (e.g., buffer[0]). Instead, views called "TypedArrays" are used to interpret and manipulate the binary data within the buffer.
+
+##What are TypedArrays?
+
+A set of array-like objects that provide a "view" into an `ArrayBuffer`. What does it mean? Well, a TypedArray doesn't store anything.
+
+> _There is no global property named TypedArray, nor is there a directly visible TypedArray constructor._
+
+![confused_gif](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/v3hrivntrozw32xfuk9w.png)
+
+I know. I know, just stay with me. It will all make sense.
+
+TypedArrays provide a structured approach to handling binary data, enabling the interpretation and manipulation of raw memory in a typed manner. They provide views for various numeric types, such as integers and floating-point numbers.
+
+The `ArrayBuffer` acts as the central object, representing raw binary data. However, for various operations such as writing into it or iterating over it, we typically utilize a **view** or one of the `TypedArrays`.
+
+TypedArrays behave like regular arrays: have indexes and are iterable.
+
+**TypedArray Objects:**
+
+![TypedArray Objects](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5vcjxze6l5q00p9w4cvx.png)
+
+Source: [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray)
+
+###Arguments:
+A TypedArray can be initialized with different types and they behave differently in each case. 1.`new TypedArray();`: Creates an empty typed array.
+
+2.`new TypedArray(length);` : Creates an instance of a typed array with a specified length.
+
+```JS
+// Create a new Int32Array with a length of 4
+const int32Array = new Int32Array(4);
+
+console.log(int32Array);  // Outputs: Int32Array [ 0, 0, 0, 0 ]
+console.log(int32Array.length);  // Outputs: 4
+```
+
+3.`new TypedArray(typedArray);`: Creates a new typed array by copying the elements from an existing typed array.
+
+```JS
+// Create a new Float32Array by copying the elements from an existing Float64Array
+const float64Array = new Float64Array([1.1, 2.2, 3.3]);
+const float32Array = new Float32Array(float64Array);
+
+console.log(float32Array);  // Outputs: Float32Array [ 1.1, 2.2, 3.3 ]
+```
+
+4.`new TypedArray(object);`: Creates a new typed array by converting the elements of an iterable object (e.g., an array or another typed array).
+
+```JS
+// Create a new Uint16Array from an array-like object
+const arrayLikeObject = { length: 3, 0: 10, 1: 20, 2: 30 } //or [10,20,30];
+const uint16Array = new Uint16Array(arrayLikeObject);
+
+console.log(uint16Array);  // Outputs: Uint16Array [ 10, 20, 30 ]
+```
+
+5.`new TypedArray(buffer, byteOffset, length);`: Creates a new typed array that is a view into an existing ArrayBuffer. The byteOffset and length parameters allow you to specify a subrange of the ArrayBuffer.
+
+```JS
+// Create an ArrayBuffer and initialize it with some binary data
+const binaryData = new Uint8Array([255, 0, 127, 1, 63, 0, 0, 0]);
+const buffer = binaryData.buffer;
+
+// Create a new Uint32Array that is a view into the existing ArrayBuffer
+const uint32ArrayView = new Uint32Array(buffer, 4, 2);
+
+console.log(uint32ArrayView);  // Outputs: Uint32Array [ 16777215, 1056964608 ]
+
+```
+
+The diagram below shows the different views of the same binary data. The values inside the boxes (0,1,2,3,...) indicates the index numbers not array values. Remember that,
+
+```JS
+const buffer = new ArrayBuffer(16);
+```
+
+initializes a buffer of length 16 and pre-fills with 0.
+
+![ArrayBuffer with different views](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/u27kmefj4wte0i06ayra.png)
+
+So, the binary data in an ArrayBuffer of 16-bytes can be viewed and interpreted in multiple ways,
+
+- 16 small integer values
+- 8 larger integer values (2 bytes each)
+- 4 even larger integer values (4 bytes each)
+- 2 floating-point values with higher precision (8 bytes each)
+
+To make it more clear we can utilize the properties (length, byteLength and BYTES_PER_ELEMENT) on each view.
+
+1. `length`: Returns the length (in bytes) of the typed array.
+2. `byteLength`: Returns the number of elements held in the typed array.
+3. `BYTES_PER_ELEMENT`: Returns a number value of the element size for the different TypedArray objects.
+
+#ArrayBuffer Use-Cases:
+Key use cases for ArrayBuffer include:
+
+- **WebGL Graphics Rendering:** Storing and managing vertex and index data for 3D graphics rendering in WebGL applications.
+
+```JS
+// Storing and managing vertex data for WebGL graphics rendering
+var gl = canvas.getContext('webgl');
+
+// Creating a buffer for vertex data
+var vertices = new Float32Array([
+                0.0, 0.0 // Vertex position (x, y)
+               ]);
+var vertexBuffer = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+
+// Using the buffer in WebGL rendering
+// (Assuming shader programs and other setup)
+// ...
+gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+// Draw graphics using the vertex buffer
+```
+
+- **Image Processing:** Manipulating raw pixel information for graphics or image processing.
+- **Networking:** Efficient handling of binary data in network communication.
+- **File I/O:** Reading and writing binary data for file-related operations.
+- **WebSockets:** Handling binary payloads in WebSocket communication.
+- **WebAssembly Integration:** Exchanging binary data between JavaScript and WebAssembly.
+
+## Advantages and Limitations:
+
+**Advantages:**
+
+1. Efficient memory usage.
+2. Effective handling of binary data.
+3. Interoperability with other APIs.
+4. Typed arrays provide structured data handling.
+5. Supports shared memory for efficient data sharing.
+6. Suitable for low-level operations.
+
+**Limitations:**
+
+1. Fixed size; cannot be dynamically resized.
+2. Limited high-level abstractions for common operations.
+3. Requires the use of typed arrays for direct data manipulation.
+4. Potential compatibility issues with older browsers.
+5. Manual memory management may lead to bugs or leaks.
+
+So, this was all about the basics of ArrayBuffer and TypedArrays. In my next article I will try to explain Byte ordering (related to ordering of multibyte values in different views) & DataViews.
