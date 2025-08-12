@@ -37,7 +37,8 @@
   --font-sans: var(--font-sans);
   --font-inter: var(--font-inter);
   --font-mono: var(--font-mono);
-  --font-dm-mono: var(--font-dm-mono) --shadow-popover: var(--shadow-popover);
+  --font-dm-mono: var(--font-dm-mono);
+  --shadow-popover: var(--shadow-popover);
 }
 
 @utility no-scrollbar {
@@ -243,7 +244,7 @@
   }
 
   body {
-    @apply overscroll-y-none bg-background font-inter text-foreground antialiased;
+    @apply overscroll-y-none bg-background font-inter font-dm-mono text-foreground antialiased;
     font-synthesis-weight: none;
     text-rendering: optimizeLegibility;
   }

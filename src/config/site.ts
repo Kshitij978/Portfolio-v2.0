@@ -1,5 +1,4 @@
 import { USER } from "@/data/user";
-import type { NavItem } from "@/types/nav";
 
 export const SITE_INFO = {
   name: USER.displayName,
@@ -13,21 +12,6 @@ export const META_THEME_COLORS = {
   light: "#ffffff",
   dark: "#09090b",
 };
-
-export const MAIN_NAV: NavItem[] = [
-  {
-    title: "Daifolio",
-    href: "/",
-  },
-  {
-    title: "Blog",
-    href: "/blog",
-  },
-  {
-    title: "Components",
-    href: "/components",
-  },
-];
 
 export const SOURCE_CODE_GITHUB_REPO = "Kshitij978/Portfolio-v2.0";
 export const SOURCE_CODE_GITHUB_URL =

@@ -24,7 +24,7 @@ export function Blog() {
           <div className="border-l border-edge"></div>
         </div> */}
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 ">
           {allPosts.slice(0, 4).map((post) => (
             <PostItem key={post.slug} post={post} />
           ))}

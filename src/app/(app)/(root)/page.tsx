@@ -2,6 +2,7 @@ import { USER } from "@/data/user";
 import { About } from "@/features/profile/components/about";
 import { Blog } from "@/features/profile/components/blog";
 import { ProfileHeader } from "@/features/profile/components/profile-header";
+import { TeckStack } from "@/features/profile/components/tech-stack";
 import { cn } from "@/lib/utils";
 import dayjs from "dayjs";
 import { ProfilePage as PageSchema, WithContext } from "schema-dts";
@@ -21,7 +22,10 @@ const Page = () => {
         <Separator />
         <About />
         <Separator />
+        <TeckStack />
+        <Separator />
         <Blog />
+        <Separator />
       </div>
     </>
   );
