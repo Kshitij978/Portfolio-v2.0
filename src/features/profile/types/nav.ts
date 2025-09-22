@@ -1,7 +1,8 @@
+import { LucideProps } from "lucide-react";
 import { ReactNode } from "react";
 
 export type NavItem = {
   title: string;
   href: string;
-  icon: ReactNode;
+  icon: (props: LucideProps) => ReactNode;
 };
