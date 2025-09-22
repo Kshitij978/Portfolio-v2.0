@@ -6,7 +6,11 @@ import { PostItem } from "@/components/post-item";
 import { Button } from "@/components/ui/button";
 import { getAllPosts } from "@/data/blog";
 
-import { Panel, PanelHeader, PanelTitle } from "./panel";
+import {
+  Panel,
+  PanelHeader,
+  PanelTitle,
+} from "@/features/profile/components/panel";
 import { GlowingEffect } from "@/components/ui/glowing-effect";
 
 export function Blog() {

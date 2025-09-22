@@ -7,6 +7,9 @@ import * as motion from "motion/react-m";
 import { fontDmMono } from "@/lib/fonts";
 import SocialLinks from "./social-links";
 import EmailItem from "./email-item";
+import dayjs from "dayjs";
+import localizedFormat from "dayjs/plugin/localizedFormat";
+dayjs.extend(localizedFormat);
 
 export function ProfileHeader() {
   return (
@@ -35,7 +38,7 @@ export function ProfileHeader() {
             maxIterations={10}
             sequential
             encryptedClassName="text-sm"
-            text="10:01 PM"
+            text={dayjs().format("LT")}
             animateOn="view"
             revealDirection="start"
           />
@@ -49,7 +52,21 @@ export function ProfileHeader() {
         />
       </motion.div>
 
-      <div className=" flex w-full items-end justify-center h-14">
+      <motion.div
+        initial={{
+          opacity: 0,
+          y: 8,
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+        }}
+        transition={{
+          ease: "easeOut",
+          delay: 0.2,
+        }}
+        className=" flex w-full items-end justify-center h-14"
+      >
         <h1 className="text-3xl font-semibold">
           {USER.displayName}
           &nbsp;
@@ -63,22 +80,55 @@ export function ProfileHeader() {
             </>
           )}
         </h1>
-      </div>
-      <div className="h-12  w-full  py-1 sm:h-auto flex justify-center">
+      </motion.div>
+      <motion.div
+        initial={{
+          opacity: 0,
+          y: 8,
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+        }}
+        transition={{
+          ease: "easeOut",
+          delay: 0.4,
+        }}
+        className="h-12  w-full  py-1 sm:h-auto flex justify-center"
+      >
         <FlipSentences
           sentences={USER.flipSentences}
           className="text-zinc-400"
         />
-      </div>
-      <div className=" w-full flex justify-center items-center h-20 gap-6">
+      </motion.div>
+      <motion.div
+        initial={{
+          opacity: 0,
+          y: 8,
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+        }}
+        transition={{
+          ease: "easeOut",
+          delay: 0.6,
+        }}
+        className=" w-full flex justify-center items-center h-20 gap-6"
+      >
         <SocialLinks />
-      </div>
+      </motion.div>
 
       {/* Contact Buttons */}
       <div className=" w-full flex justify-center items-center gap-4">
         <EmailItem />
       </div>
-      <div className=" w-full min-h-16 flex items-center justify-center">
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ ease: "easeOut", delay: 0.6 }}
+        className=" w-full min-h-16 flex items-center justify-center"
+      >
         <DecryptedText
           className={cn(
             "text-xs text-zinc-600 font-bold",
@@ -88,11 +138,11 @@ export function ProfileHeader() {
           sequential
           parentClassName="text-xs text-zinc-600"
           encryptedClassName="text-xs text-zinc-600"
-          text="Lucknow, India · 40.6892° N, 74.0445° W"
+          text="Lucknow, India · 26.8467° N, 80.9462° E"
           animateOn="view"
           revealDirection="start"
         />
-      </div>
+      </motion.div>
     </div>
   );
 }
