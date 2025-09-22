@@ -1,5 +1,7 @@
 import Navigation from "@/components/navigation";
 import { ScrollTop } from "@/components/scroll-top";
+import { SiteFooter } from "@/components/site-footer";
+import ThemeToggler from "@/components/theme-toggler";
 // import DarkVeil from "@/components/ui/dark-veil";
 import LightRays from "@/components/ui/light-rays";
 
@@ -24,7 +26,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           className="custom-rays"
         />
       </div>
+      <SiteFooter />
       <ScrollTop />
+      {/* <ThemeToggler /> */}
     </>
   );
 }
