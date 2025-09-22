@@ -16,37 +16,37 @@ export const MAIN_NAV: NavItem[] = [
   {
     title: "Home",
     href: "/",
-    icon: <HouseIcon />,
+    icon: ({ size }) => <HouseIcon size={size} />,
   },
   {
     title: "Projects",
     href: "/projects",
-    icon: <LaptopMinimalIcon />,
+    icon: ({ size }) => <LaptopMinimalIcon size={size} />,
   },
   {
     title: "Blog",
     href: "/blog",
-    icon: <PenLineIcon />,
+    icon: ({ size }) => <PenLineIcon size={size} />,
   },
   {
     title: "Stack",
     href: "/stack",
-    icon: <LayersIcon />,
+    icon: ({ size }) => <LayersIcon size={size} />,
   },
   {
     title: "About",
     href: "/about",
-    icon: <UserRoundIcon />,
+    icon: ({ size }) => <UserRoundIcon size={size} />,
   },
   {
     title: "Contact",
     href: "/contact",
-    icon: <MailIcon />,
+    icon: ({ size }) => <MailIcon size={size} />,
   },
   {
     title: "Search",
     href: "/",
-    icon: <SearchIcon />,
+    icon: ({ size }) => <SearchIcon size={size} />,
   },
 ];
 
@@ -55,20 +55,22 @@ const Navigation = () => {
     <nav className="fixed z-50 w-full md:w-fit right-0 md:right-auto left-0 md:top-0 bottom-0 md:h-screen">
       <ul
         className={cn(
-          "flex md:flex-col w-full border-r bg-[var(--background)] border-zinc-800 md:w-14 items-center justify-evenly  md:justify-center h-16 md:h-full border-t border-t-zinc-800 gap-6"
+          "flex md:flex-col w-full md:border-r bg-[var(--background)] md:min-w-16 items-center justify-evenly  md:justify-center h-16 md:h-full border-t gap-6"
         )}
       >
-        {MAIN_NAV.map((item) => (
+        {MAIN_NAV.map(({ title, href, icon }) => (
           <SimpleTooltip
             contentProps={{
               side: "left",
               sideOffset: 10,
             }}
-            key={item.title}
-            content={item.title}
+            key={title}
+            content={title}
           >
-            <Link href={item.href} rel="noopener noreferer">
-              <li className="text-zinc-500 hover:text-zinc-300">{item.icon}</li>
+            <Link href={href} rel="noopener noreferer">
+              <li className="text-zinc-500 hover:text-zinc-300">
+                {icon({ size: 22 })}
+              </li>
             </Link>
           </SimpleTooltip>
         ))}
