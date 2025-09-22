@@ -8,7 +8,7 @@ export const USER = {
   bio: "Creating with code. Small details matter.",
   flipSentences: [
     "Creating with code. Small details matter.",
-    "Design Engineer",
+    "Frontend Developer",
     "Open Source Contributor",
   ],
   social: [
@@ -30,20 +30,8 @@ export const USER = {
   ],
   address: "Lucknow, India",
   email: "kshitij.suraj@gmail.com", // base64 encoded
-  website: "https://chanhdai.com",
-  otherWebsites: [
-    "https://dai.ng",
-    "https://dai.so",
-    "https://d.io.vn",
-    "https://d.id.vn",
-    "https://dai.io.vn",
-    "https://dai.id.vn",
-    "https://chanhdai.io.vn",
-    "https://chanhdai.id.vn",
-    "https://ncdai.vn",
-    "https://ncdai.net",
-    "https://dai.is-a.dev",
-  ],
+  website: "",
+  otherWebsites: [],
   jobTitle: "Fronted Developer",
   jobs: [
     {
@@ -70,8 +58,8 @@ export const USER = {
 Whether it's collaborating with cross-functional teams or leading design projects, my attention to detail and dedication to excellence has earned me a reputation for delivering exceptional results.
     `,
   avatar: "/images/profile.png",
-  ogImage: "https://assets.chanhdai.com/images/screenshot-og-image-dark.png",
-  namePronunciationUrl: "https://assets.chanhdai.com/audio/chanhdai.mp3",
+  ogImage: "",
+  namePronunciationUrl: "",
   keywords: "Kshitij978, Kshitij Srivastava, KS, kssri",
   dateCreated: "2025-08-05", // YYYY-MM-DD
 };
