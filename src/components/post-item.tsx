@@ -23,13 +23,13 @@ export function PostItem({
         variant="white"
         className="rounded-xl"
         proximity={64}
-        borderWidth={3}
+        borderWidth={2}
         inactiveZone={0.01}
       />
       <Link
         href={`/blog/${post.slug}`}
         className={cn(
-          "group/post group flex flex-col gap-2 p-2 border rounded-xl"
+          "group/post group flex flex-col gap-2 p-2 border rounded-xl dark:bg-input/30"
         )}
       >
         {post.metadata.image && (
