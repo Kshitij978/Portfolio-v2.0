@@ -1,6 +1,6 @@
 ---
-title: ArrayBuffer and TypedArray
-description: Dive deep into JavaScript niche concept.
+title: ArrayBuffer and TypedArray - Dive deep into JavaScript niche concept.
+category: Programming
 image: /images/arraybuffer.png
 createdAt: 2024-01-11
 updatedAt: 2024-01-11
@@ -20,7 +20,7 @@ A low-level object that represents a fixed-size binary data buffer. It is partic
 
 We create it like this:
 
-```JS
+```js
 const buffer = new ArrayBuffer(16); // create a buffer of length 16
 console.log(buffer.byteLength); // 16
 ```
@@ -60,37 +60,37 @@ A TypedArray can be initialized with different types and they behave differently
 
 2.`new TypedArray(length);` : Creates an instance of a typed array with a specified length.
 
-```JS
+```js
 // Create a new Int32Array with a length of 4
 const int32Array = new Int32Array(4);
 
-console.log(int32Array);  // Outputs: Int32Array [ 0, 0, 0, 0 ]
-console.log(int32Array.length);  // Outputs: 4
+console.log(int32Array); // Outputs: Int32Array [ 0, 0, 0, 0 ]
+console.log(int32Array.length); // Outputs: 4
 ```
 
 3.`new TypedArray(typedArray);`: Creates a new typed array by copying the elements from an existing typed array.
 
-```JS
+```js
 // Create a new Float32Array by copying the elements from an existing Float64Array
 const float64Array = new Float64Array([1.1, 2.2, 3.3]);
 const float32Array = new Float32Array(float64Array);
 
-console.log(float32Array);  // Outputs: Float32Array [ 1.1, 2.2, 3.3 ]
+console.log(float32Array); // Outputs: Float32Array [ 1.1, 2.2, 3.3 ]
 ```
 
 4.`new TypedArray(object);`: Creates a new typed array by converting the elements of an iterable object (e.g., an array or another typed array).
 
-```JS
+```js
 // Create a new Uint16Array from an array-like object
-const arrayLikeObject = { length: 3, 0: 10, 1: 20, 2: 30 } //or [10,20,30];
+const arrayLikeObject = { length: 3, 0: 10, 1: 20, 2: 30 }; //or [10,20,30];
 const uint16Array = new Uint16Array(arrayLikeObject);
 
-console.log(uint16Array);  // Outputs: Uint16Array [ 10, 20, 30 ]
+console.log(uint16Array); // Outputs: Uint16Array [ 10, 20, 30 ]
 ```
 
 5.`new TypedArray(buffer, byteOffset, length);`: Creates a new typed array that is a view into an existing ArrayBuffer. The byteOffset and length parameters allow you to specify a subrange of the ArrayBuffer.
 
-```JS
+```js
 // Create an ArrayBuffer and initialize it with some binary data
 const binaryData = new Uint8Array([255, 0, 127, 1, 63, 0, 0, 0]);
 const buffer = binaryData.buffer;
@@ -98,13 +98,12 @@ const buffer = binaryData.buffer;
 // Create a new Uint32Array that is a view into the existing ArrayBuffer
 const uint32ArrayView = new Uint32Array(buffer, 4, 2);
 
-console.log(uint32ArrayView);  // Outputs: Uint32Array [ 16777215, 1056964608 ]
-
+console.log(uint32ArrayView); // Outputs: Uint32Array [ 16777215, 1056964608 ]
 ```
 
 The diagram below shows the different views of the same binary data. The values inside the boxes (0,1,2,3,...) indicates the index numbers not array values. Remember that,
 
-```JS
+```js
 const buffer = new ArrayBuffer(16);
 ```
 
@@ -130,14 +129,15 @@ Key use cases for ArrayBuffer include:
 
 - **WebGL Graphics Rendering:** Storing and managing vertex and index data for 3D graphics rendering in WebGL applications.
 
-```JS
+```js
 // Storing and managing vertex data for WebGL graphics rendering
-var gl = canvas.getContext('webgl');
+var gl = canvas.getContext("webgl");
 
 // Creating a buffer for vertex data
 var vertices = new Float32Array([
-                0.0, 0.0 // Vertex position (x, y)
-               ]);
+  0.0,
+  0.0, // Vertex position (x, y)
+]);
 var vertexBuffer = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
 gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
