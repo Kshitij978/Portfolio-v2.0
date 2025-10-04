@@ -1,15 +1,20 @@
 import Navigation from "@/components/navigation";
 import { ScrollTop } from "@/components/scroll-top";
 import { SiteFooter } from "@/components/site-footer";
-import ThemeToggler from "@/components/theme-toggler";
 // import DarkVeil from "@/components/ui/dark-veil";
 import LightRays from "@/components/ui/light-rays";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <Navigation />
-      <main className="max-w-screen overflow-x-hidden px-2">{children}</main>
+      <div className="flex flex-col md:flex-row w-full  relative">
+        <Navigation />
+        <main className="max-w-screen overflow-x-hidden w-full mx-auto px-2">
+          {children}
+          <SiteFooter />
+        </main>
+      </div>
+
       <div className="fixed left-0 opacity-50 right-0 top-0 -z-10">
         {/* <DarkVeil hueShift={225} /> */}
         <LightRays
@@ -26,7 +31,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           className="custom-rays"
         />
       </div>
-      <SiteFooter />
       <ScrollTop />
       {/* <ThemeToggler /> */}
     </>
