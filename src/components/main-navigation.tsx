@@ -53,7 +53,7 @@ const MainNavigation = () => {
     <nav className="fixed  md:relative  z-50 w-full md:w-fit right-0 md:right-auto left-0 md:top-0 bottom-0 md:h-screen">
       <ul
         className={cn(
-          "flex md:flex-col w-full md:border-r bg-[var(--background)] md:min-w-16 items-center justify-evenly  md:justify-center h-16 md:h-full border-t gap-6"
+          "flex md:flex-col w-full md:border-r bg-[var(--background)] md:min-w-16 items-center justify-evenly md:gap-8  md:justify-center h-16 md:h-full border-t gap-6"
         )}
       >
         {MAIN_NAV.map(({ title, href, icon }) => (
