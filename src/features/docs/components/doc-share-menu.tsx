@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { copyText } from "@/utils/copy";
 
-export function PostShareMenu({ url }: { url: string }) {
+export function DocShareMenu({ url }: { url: string }) {
   const absoluteUrl = url.startsWith("http")
     ? url
     : typeof window !== "undefined"

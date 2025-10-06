@@ -4,16 +4,19 @@ import { notFound } from "next/navigation";
 import type { BlogPosting as PageSchema, WithContext } from "schema-dts";
 
 import { SITE_INFO } from "@/config/site";
-import { getAllPosts, getPostBySlug } from "@/features/docs/blog/data/posts";
-import type { Post } from "@/features/docs/blog/types/post";
 import { USER } from "@/features/profile/data/user";
 import { DocContent } from "@/features/docs/components/doc-content";
 import { getDocUrl } from "@/features/docs/process-docs";
+import {
+  getAllProjects,
+  getProjectBySlug,
+} from "@/features/docs/project/data/project";
+import { Project } from "@/features/docs/project/types/project";
 
 export async function generateStaticParams() {
-  const posts = getAllPosts();
-  return posts.map((post) => ({
-    slug: post.slug,
+  const projects = getAllProjects();
+  return projects.map((project) => ({
+    slug: project.slug,
   }));
 }
 
@@ -23,25 +26,25 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const slug = (await params).slug;
-  const post = getPostBySlug(slug);
+  const project = getProjectBySlug(slug);
 
-  if (!post) {
+  if (!project) {
     return notFound();
   }
 
-  const { title, description, image, createdAt, updatedAt } = post.metadata;
+  const { title, description, image, createdAt, updatedAt } = project.metadata;
 
-  const postUrl = getDocUrl(post);
+  const projectUrl = getDocUrl(project);
   const ogImage = image || `/og/simple?title=${encodeURIComponent(title)}`;
 
   return {
     title,
     description,
     alternates: {
-      canonical: postUrl,
+      canonical: projectUrl,
     },
     openGraph: {
-      url: postUrl,
+      url: projectUrl,
       type: "article",
       publishedTime: dayjs(createdAt).toISOString(),
       modifiedTime: dayjs(updatedAt).toISOString(),
@@ -59,18 +62,18 @@ export async function generateMetadata({
   };
 }
 
-function getPageJsonLd(post: Post): WithContext<PageSchema> {
+function getPageJsonLd(project: Project): WithContext<PageSchema> {
   return {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    headline: post.metadata.title,
-    description: post.metadata.description,
+    headline: project.metadata.title,
+    description: project.metadata.description,
     image:
-      post.metadata.image ||
-      `/og/simple?title=${encodeURIComponent(post.metadata.title)}`,
-    url: `${SITE_INFO.url}${getDocUrl(post)}`,
-    datePublished: dayjs(post.metadata.createdAt).toISOString(),
-    dateModified: dayjs(post.metadata.updatedAt).toISOString(),
+      project.metadata.image ||
+      `/og/simple?title=${encodeURIComponent(project.metadata.title)}`,
+    url: `${SITE_INFO.url}${getDocUrl(project)}`,
+    datePublished: dayjs(project.metadata.createdAt).toISOString(),
+    dateModified: dayjs(project.metadata.updatedAt).toISOString(),
     author: {
       "@type": "Person",
       name: USER.displayName,
@@ -88,9 +91,9 @@ export default async function Page({
   }>;
 }) {
   const slug = (await params).slug;
-  const post = getPostBySlug(slug);
+  const project = getProjectBySlug(slug);
 
-  if (!post) {
+  if (!project) {
     notFound();
   }
 
@@ -99,11 +102,14 @@ export default async function Page({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(getPageJsonLd(post)).replace(/</g, "\\u003c"),
+          __html: JSON.stringify(getPageJsonLd(project)).replace(
+            /</g,
+            "\\u003c"
+          ),
         }}
       />
 
-      <DocContent doc={post} slug={slug} basePath="/blog" />
+      <DocContent doc={project} slug={slug} basePath="/projects" />
     </>
   );
 }

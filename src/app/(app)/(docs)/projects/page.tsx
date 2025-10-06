@@ -1,23 +1,24 @@
 import dayjs from "dayjs";
 import type { Metadata } from "next";
 
-import { getAllPosts } from "@/features/docs/blog/data/posts";
 import { Separator } from "@/components/separator";
 import { DocItem } from "@/features/docs/components/doc-item";
+import { getAllProjects } from "@/features/docs/project/data/project";
 
 export const metadata: Metadata = {
-  title: "Blog",
-  description: "A collection of articles on development, design, and ideas.",
+  title: "Projects",
+  description: "A collection of projects that I have worked on.",
 };
 
 export default function Page() {
-  const allPosts = getAllPosts();
+  const allProjects = getAllProjects();
 
+  console.log(allProjects);
   return (
     <>
       <Separator />
       <div className=" px-4">
-        <h1 className="text-3xl font-semibold">Blog</h1>
+        <h1 className="text-3xl font-semibold">Projects</h1>
       </div>
 
       <div className=" p-4">
@@ -33,16 +34,16 @@ export default function Page() {
         </div> */}
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 ">
-          {allPosts
+          {allProjects
             .slice()
             .sort((a, b) =>
               dayjs(b.metadata.createdAt).diff(dayjs(a.metadata.createdAt))
             )
-            .map((post, index) => (
+            .map((project, index) => (
               <DocItem
-                basePath="/blog"
-                key={post.slug}
-                doc={post}
+                basePath="/projects"
+                key={project.slug}
+                doc={project}
                 shouldPreloadImage={index <= 4}
               />
             ))}
