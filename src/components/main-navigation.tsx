@@ -4,7 +4,6 @@ import { NavItem } from "@/features/profile/types/nav";
 import {
   HouseIcon,
   LaptopMinimalIcon,
-  LayersIcon,
   MailIcon,
   PenLineIcon,
   SearchIcon,
@@ -30,11 +29,6 @@ export const MAIN_NAV: NavItem[] = [
     title: "Blog",
     href: "/blog",
     icon: ({ size, stroke }) => <PenLineIcon stroke={stroke} size={size} />,
-  },
-  {
-    title: "Stack",
-    href: "/stack",
-    icon: ({ size, stroke }) => <LayersIcon stroke={stroke} size={size} />,
   },
   {
     title: "About",
