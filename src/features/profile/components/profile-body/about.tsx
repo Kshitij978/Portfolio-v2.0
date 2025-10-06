@@ -1,8 +1,8 @@
 import { Markdown } from "@/components/markdown";
 import { Prose } from "@/components/ui/typography";
-import { USER } from "@/data/user";
 
 import { Panel, PanelContent, PanelHeader, PanelTitle } from "../panel";
+import { USER } from "../../data/user";
 
 export function About() {
   return (

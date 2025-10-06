@@ -1,8 +1,8 @@
 import { SimpleTooltip } from "@/components/ui/tooltip";
-import { USER } from "@/data/user";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { ComponentType } from "react";
+import { USER } from "../../data/user";
 
 const SocialLinks = () => {
   return (

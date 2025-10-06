@@ -1,10 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { USER } from "@/data/user";
 import { Copy, Mail } from "lucide-react";
 import React from "react";
 import * as motion from "motion/react-m";
+import { USER } from "../../data/user";
 
 const EmailItem = () => {
   return (

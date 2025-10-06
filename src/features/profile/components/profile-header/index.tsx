@@ -1,4 +1,3 @@
-import { USER } from "@/data/user";
 import { cn } from "@/lib/utils";
 import { FlipSentences } from "@/components/ui/flip-sentences";
 import { PronounceMyName } from "../pronounce-my-name";
@@ -9,6 +8,7 @@ import SocialLinks from "./social-links";
 import EmailItem from "./email-item";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
+import { USER } from "../../data/user";
 dayjs.extend(localizedFormat);
 
 export function ProfileHeader() {
