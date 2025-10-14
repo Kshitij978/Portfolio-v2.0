@@ -12,7 +12,7 @@ export function SiteFooter() {
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ ease: "easeOut", delay: 1 }}
-      className="max-w-screen overflow-x-hidden px-2"
+      className="max-w-screen overflow-x-hidden border-t"
     >
       <div className=" mx-auto  pt-4 md:max-w-3xl">
         <p className="mb-1 px-4 text-center font-mono text-sm text-balance text-muted-foreground">
