@@ -9,14 +9,14 @@ interface DecryptedTextProps {
   maxIterations?: number;
   sequential?: boolean;
   revealDirection?: "start" | "end" | "center";
-
-  animateOnce?: boolean;
   useOriginalCharsOnly?: boolean;
   characters?: string;
   className?: string;
   encryptedClassName?: string;
   parentClassName?: string;
   animateOn?: "view" | "hover";
+  // only animate once when true (default true)
+  animateOnce?: boolean;
 }
 
 export default function DecryptedText({
@@ -29,9 +29,9 @@ export default function DecryptedText({
   characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*()_+",
   className = "",
   parentClassName = "",
-  animateOnce = false,
   encryptedClassName = "",
   animateOn = "hover",
+  animateOnce = true,
   ...props
 }: DecryptedTextProps) {
   const [displayText, setDisplayText] = useState<string>(text);
@@ -42,9 +42,15 @@ export default function DecryptedText({
   );
   const [hasAnimated, setHasAnimated] = useState<boolean>(false);
   const containerRef = useRef<HTMLSpanElement>(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    // cleanup any previous interval if re-running effect
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+
     let currentIteration = 0;
 
     const getNextIndex = (revealedSet: Set<number>): number => {
@@ -127,21 +133,18 @@ export default function DecryptedText({
       }
     };
 
-    // NEW GUARD:
-    // If animation is configured to run only once on view and it has already run,
-    // then skip scrambling logic and simply update displayText to the new prop.
+    // Guard: if we've already animated once (for view) and animateOnce is true, skip scramble logic.
     if (animateOn === "view" && animateOnce && hasAnimated) {
       setDisplayText(text);
       setRevealedIndices(new Set());
       setIsScrambling(false);
-      return () => {
-        // nothing to clear here
-      };
+      return;
     }
 
     if (isHovering) {
       setIsScrambling(true);
-      interval = setInterval(() => {
+
+      intervalRef.current = setInterval(() => {
         setRevealedIndices((prevRevealed) => {
           if (sequential) {
             if (prevRevealed.size < text.length) {
@@ -149,27 +152,43 @@ export default function DecryptedText({
               const newRevealed = new Set(prevRevealed);
               newRevealed.add(nextIndex);
               setDisplayText(shuffleText(text, newRevealed));
+              // If we've just revealed the last character, animation finished:
+              if (newRevealed.size >= text.length) {
+                if (intervalRef.current) {
+                  clearInterval(intervalRef.current);
+                  intervalRef.current = null;
+                }
+                setIsScrambling(false);
+                setHasAnimated(true);
+              }
               return newRevealed;
             } else {
-              clearInterval(interval);
+              if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+                intervalRef.current = null;
+              }
               setIsScrambling(false);
+              setHasAnimated(true);
               return prevRevealed;
             }
           } else {
             setDisplayText(shuffleText(text, prevRevealed));
             currentIteration++;
             if (currentIteration >= maxIterations) {
-              clearInterval(interval);
+              if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+                intervalRef.current = null;
+              }
               setIsScrambling(false);
               setDisplayText(text);
+              setHasAnimated(true);
             }
             return prevRevealed;
           }
         });
       }, speed);
     } else {
-      // Only update displayText from prop if we're not in the "frozen after animate" case
-      // (this caters to hover-based flows as well).
+      // Only update displayText from prop if we're not in the frozen-after-animate case
       if (!(animateOn === "view" && animateOnce && hasAnimated)) {
         setDisplayText(text);
       }
@@ -178,7 +197,10 @@ export default function DecryptedText({
     }
 
     return () => {
-      if (interval) clearInterval(interval);
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
     };
   }, [
     isHovering,
@@ -189,6 +211,9 @@ export default function DecryptedText({
     revealDirection,
     characters,
     useOriginalCharsOnly,
+    animateOn,
+    animateOnce,
+    hasAnimated,
   ]);
 
   useEffect(() => {
@@ -197,8 +222,9 @@ export default function DecryptedText({
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting && !hasAnimated) {
+          // start the animation, but DO NOT mark hasAnimated true here:
           setIsHovering(true);
-          setHasAnimated(true);
+          // previously we set hasAnimated here too which prevented the scramble from running.
         }
       });
     };
