@@ -9,6 +9,8 @@ interface DecryptedTextProps {
   maxIterations?: number;
   sequential?: boolean;
   revealDirection?: "start" | "end" | "center";
+
+  animateOnce?: boolean;
   useOriginalCharsOnly?: boolean;
   characters?: string;
   className?: string;
@@ -27,6 +29,7 @@ export default function DecryptedText({
   characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*()_+",
   className = "",
   parentClassName = "",
+  animateOnce = false,
   encryptedClassName = "",
   animateOn = "hover",
   ...props
@@ -124,6 +127,18 @@ export default function DecryptedText({
       }
     };
 
+    // NEW GUARD:
+    // If animation is configured to run only once on view and it has already run,
+    // then skip scrambling logic and simply update displayText to the new prop.
+    if (animateOn === "view" && animateOnce && hasAnimated) {
+      setDisplayText(text);
+      setRevealedIndices(new Set());
+      setIsScrambling(false);
+      return () => {
+        // nothing to clear here
+      };
+    }
+
     if (isHovering) {
       setIsScrambling(true);
       interval = setInterval(() => {
@@ -153,7 +168,11 @@ export default function DecryptedText({
         });
       }, speed);
     } else {
-      setDisplayText(text);
+      // Only update displayText from prop if we're not in the "frozen after animate" case
+      // (this caters to hover-based flows as well).
+      if (!(animateOn === "view" && animateOnce && hasAnimated)) {
+        setDisplayText(text);
+      }
       setRevealedIndices(new Set());
       setIsScrambling(false);
     }

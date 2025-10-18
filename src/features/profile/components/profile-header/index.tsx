@@ -9,6 +9,7 @@ import EmailItem from "./email-item";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import { USER } from "../../data/user";
+import CurrentTime from "./current-time";
 dayjs.extend(localizedFormat);
 
 export function ProfileHeader() {
@@ -29,19 +30,7 @@ export function ProfileHeader() {
         }}
       >
         <div className=" min-h-20 flex items-center justify-center">
-          <DecryptedText
-            className={cn(
-              "text-sm text-zinc-400 font-semibold",
-              fontDmMono.className
-            )}
-            speed={80}
-            maxIterations={10}
-            sequential
-            encryptedClassName="text-sm"
-            text={dayjs().format("LT")}
-            animateOn="view"
-            revealDirection="start"
-          />
+          <CurrentTime />
         </div>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
