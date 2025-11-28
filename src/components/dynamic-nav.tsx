@@ -3,30 +3,47 @@ import { useMotionValueEvent, useScroll } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { Card, CardContent } from "./ui/card";
 import { cn } from "@/lib/utils";
-import { useParams } from "next/navigation";
-import { Post } from "@/features/docs/blog/types/post";
-import fetchAllPosts from "@/features/docs/blog/post-actions";
+import { useParams, usePathname } from "next/navigation";
+import { Post } from "@/features/blog/types/post";
 import Link from "next/link";
 import { useTailwindMedia } from "@/hooks/use-media-query";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 import { useNoScroll } from "@/hooks/use-no-scroll";
+import { ParamValue } from "next/dist/server/request/params";
 
-export default function DynamicNav() {
+export default function DynamicNav({
+  data,
+  slug,
+}: {
+  data: Post[];
+  slug: ParamValue;
+}) {
   const [percentageContentRead, setPercentageContentRead] = useState(0);
-  const [data, setData] = useState<Post[]>([]);
   const { scrollY } = useScroll();
+  const [filteredData, setFilteredData] = useState<Post[]>([]);
+  const [heading, setHeading] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const { slug } = useParams();
+  const pathname = usePathname();
 
   const menuRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    fetchAllPosts().then((data) => setData(data));
-  }, []);
-
   useOutsideClick(menuRef, () => setMenuOpen(false));
   useNoScroll(menuOpen);
+  useEffect(() => {
+    if (pathname.startsWith("/blog")) {
+      setFilteredData(
+        data.filter((post) => post.metadata.category === "article")
+      );
+      setHeading("Blog");
+    }
+    if (pathname.startsWith("/projects")) {
+      setFilteredData(
+        data.filter((post) => post.metadata.category === "project")
+      );
+      setHeading("Projects");
+    }
+  }, [pathname]);
 
   const isMdDown = useTailwindMedia("md", "down");
 
@@ -43,15 +60,22 @@ export default function DynamicNav() {
     // 3. Update the state with the calculated percentage
     setPercentageContentRead(Number(scrollPercentage.toFixed(0)));
   });
+  console.log(percentageContentRead);
 
-  const currentPost = data && data.find((post) => post.slug === slug)!;
-  const exceptCurrentPost = data && data.filter((post) => post.slug !== slug);
+  const currentPost =
+    filteredData.length > 0
+      ? filteredData.find((post) => post.slug === slug)!
+      : null;
+  const exceptCurrentPost =
+    filteredData.length > 0
+      ? filteredData.filter((post) => post.slug !== slug)
+      : null;
 
   if (isMdDown) {
     return (
-      <div className="w-full flex  bg-background justify-between px-3 py-4 border-b">
+      <div className="w-full flex bg-background justify-between px-3 py-4 border-b">
         <h1 className="text-[18px] leading-none pl-4 font-semibold text-zinc-200">
-          Work
+          {heading}
         </h1>
         {/* hamburger */}
         <svg
@@ -105,32 +129,30 @@ export default function DynamicNav() {
                 </CardContent>
               </Card>
             )}
-            {data.length > 1 && (
+            {filteredData.length > 1 && (
               <>
                 {/* UP NEXT label */}
                 <div className="mt-2 text-base pl-4 text-zinc-500 tracking-wide font-semibold  select-none">
                   Up next
                 </div>
 
-                {exceptCurrentPost.map((post) => (
-                  <Link key={post.slug} href={`/blog/${post.slug}`}>
-                    <Card className="mt-2 relative min-h-[100px] p-3 transition-all bg-transparent duration-300 hover:bg-zinc-800/70 border-none rounded-xl hover:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.03)]">
-                      <CardContent className="p-0">
-                        <div className="text-[15px] font-semibold text-zinc-200 leading-tight">
-                          {post.metadata.title}
-                        </div>
-                        <div className="mt-2 text-[14px] leading-6 text-zinc-400">
-                          {post.metadata.description}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </Link>
-                ))}
+                {exceptCurrentPost &&
+                  exceptCurrentPost.map((post) => (
+                    <Link key={post.slug} href={`/blog/${post.slug}`}>
+                      <Card className="mt-2 relative min-h-[100px] p-3 transition-all bg-transparent duration-300 hover:bg-zinc-800/70 border-none rounded-xl hover:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.03)]">
+                        <CardContent className="p-0">
+                          <div className="text-[15px] font-semibold text-zinc-200 leading-tight">
+                            {post.metadata.title}
+                          </div>
+                          <div className="mt-2 text-[14px] leading-6 text-zinc-400">
+                            {post.metadata.description}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </Link>
+                  ))}
               </>
             )}
-
-            {/* Spacer to keep bottom breathing room similar to screenshot */}
-            <div className="flex-1" />
           </div>
         </div>
       </div>
@@ -138,11 +160,11 @@ export default function DynamicNav() {
   }
 
   return (
-    <div className="w-full border-r top-0">
-      <div className="h-[862px] w-full text-zinc-200 px-3 pt-6 pb-10 flex flex-col gap-6 font-[Inter,system-ui,ui-sans-serif] tracking-tight">
+    <div className="w-[360px] sticky top-0 h-full border-r">
+      <div className=" w-full text-zinc-200 px-3 pt-6 pb-10 flex flex-col gap-6 font-[Inter,system-ui,ui-sans-serif] tracking-tight">
         {/* Heading */}
         <h1 className="text-[18px] leading-none pl-4 font-semibold text-zinc-200">
-          Work
+          {heading}
         </h1>
 
         {/* NOW VIEWING label */}
@@ -171,32 +193,30 @@ export default function DynamicNav() {
             </CardContent>
           </Card>
         )}
-        {data.length > 1 && (
+        {filteredData.length > 1 && (
           <>
             {/* UP NEXT label */}
             <div className="mt-2 text-base pl-4 text-zinc-500 tracking-wide font-semibold  select-none">
               Up next
             </div>
 
-            {exceptCurrentPost.map((post) => (
-              <Link key={post.slug} href={`/blog/${post.slug}`}>
-                <Card className="mt-2 relative min-h-[100px] p-3 transition-all bg-transparent duration-300 hover:bg-zinc-800/70 border-none rounded-xl hover:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.03)]">
-                  <CardContent className="p-0">
-                    <div className="text-[15px] font-semibold text-zinc-200 leading-tight">
-                      {post.metadata.title}
-                    </div>
-                    <div className="mt-2 text-[14px] leading-6 text-zinc-400">
-                      {post.metadata.description}
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
+            {exceptCurrentPost &&
+              exceptCurrentPost.map((post) => (
+                <Link key={post.slug} href={`/blog/${post.slug}`}>
+                  <Card className="mt-2 relative min-h-[100px] p-3 transition-all bg-transparent duration-300 hover:bg-zinc-800/70 border-none rounded-xl hover:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.03)]">
+                    <CardContent className="p-0">
+                      <div className="text-[15px] font-semibold text-zinc-200 leading-tight">
+                        {post.metadata.title}
+                      </div>
+                      <div className="mt-2 text-[14px] leading-6 text-zinc-400">
+                        {post.metadata.description}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
           </>
         )}
-
-        {/* Spacer to keep bottom breathing room similar to screenshot */}
-        <div className="flex-1" />
       </div>
     </div>
   );

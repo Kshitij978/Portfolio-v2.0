@@ -1,3 +1,4 @@
+"use client";
 import { SimpleTooltip } from "./ui/tooltip";
 import Link from "next/link";
 import { NavItem } from "@/features/profile/types/nav";
@@ -6,7 +7,6 @@ import {
   LaptopMinimalIcon,
   MailIcon,
   PenLineIcon,
-  SearchIcon,
   UserRoundIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -35,20 +35,11 @@ export const MAIN_NAV: NavItem[] = [
     href: "/about",
     icon: ({ size, stroke }) => <UserRoundIcon stroke={stroke} size={size} />,
   },
-  {
-    title: "Contact",
-    href: "/contact",
-    icon: ({ size, stroke }) => <MailIcon stroke={stroke} size={size} />,
-  },
-  {
-    title: "Search",
-    href: "/search",
-    icon: ({ size, stroke }) => <SearchIcon stroke={stroke} size={size} />,
-  },
 ];
 
-const MainNavigation = () => {
+const MainNavigation = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
+
   return (
     <nav className="fixed  md:relative  z-50 w-full md:w-fit right-0 md:right-auto left-0 md:top-0 bottom-0 md:h-screen">
       <ul
@@ -85,6 +76,7 @@ const MainNavigation = () => {
             </Link>
           </SimpleTooltip>
         ))}
+        {children}
       </ul>
     </nav>
   );
