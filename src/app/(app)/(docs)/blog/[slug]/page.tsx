@@ -4,11 +4,14 @@ import { notFound } from "next/navigation";
 import type { BlogPosting as PageSchema, WithContext } from "schema-dts";
 
 import { SITE_INFO } from "@/config/site";
-import { getAllPosts, getPostBySlug } from "@/features/docs/blog/data/posts";
-import type { Post } from "@/features/docs/blog/types/post";
+import {
+  getAllPosts,
+  getPostBySlug,
+  getPostUrl,
+} from "@/features/blog/data/posts";
+import type { Post } from "@/features/blog/types/post";
 import { USER } from "@/features/profile/data/user";
-import { DocContent } from "@/features/docs/components/doc-content";
-import { getDocUrl } from "@/features/docs/process-docs";
+import { DocContent } from "@/features/blog/components/doc-content";
 
 export async function generateStaticParams() {
   const posts = getAllPosts();
@@ -31,7 +34,7 @@ export async function generateMetadata({
 
   const { title, description, image, createdAt, updatedAt } = post.metadata;
 
-  const postUrl = getDocUrl(post);
+  const postUrl = getPostUrl(post);
   const ogImage = image || `/og/simple?title=${encodeURIComponent(title)}`;
 
   return {
@@ -68,7 +71,7 @@ function getPageJsonLd(post: Post): WithContext<PageSchema> {
     image:
       post.metadata.image ||
       `/og/simple?title=${encodeURIComponent(post.metadata.title)}`,
-    url: `${SITE_INFO.url}${getDocUrl(post)}`,
+    url: `${SITE_INFO.url}${getPostUrl(post)}`,
     datePublished: dayjs(post.metadata.createdAt).toISOString(),
     dateModified: dayjs(post.metadata.updatedAt).toISOString(),
     author: {
