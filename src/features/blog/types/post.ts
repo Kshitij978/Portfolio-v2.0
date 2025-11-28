@@ -1,4 +1,4 @@
-export type ProjectMetadata = {
+export type PostMetadata = {
   title: string;
   description: string;
   /**
@@ -7,7 +7,7 @@ export type ProjectMetadata = {
    */
   image?: string;
   /**
-   * Category identifier/slug used for filtering (see getProjectsByCategory).
+   * Category identifier/slug used for filtering (see getPostsByCategory).
    */
   category?: string;
   /**
@@ -22,11 +22,20 @@ export type ProjectMetadata = {
    * Last updated date as an ISO date string (e.g. YYYY-MM-DD).
    */
   updatedAt: string;
+
+  /**
+   * GitHub link of the project.
+   */
+  githubLink?: string;
+  /**
+   * Live link of the project.
+   */
+  liveLink?: string;
 };
 
-export type Project = {
+export type Post = {
   /** Parsed frontmatter metadata from the MDX file. */
-  metadata: ProjectMetadata;
+  metadata: PostMetadata;
   /** Slug derived from the MDX filename (without extension). */
   slug: string;
   /** MDX content body without frontmatter. */

@@ -3,9 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-import type { Post } from "@/features/docs/blog/types/post";
+import type { Post } from "@/features/blog/types/post";
 import { cn } from "@/lib/utils";
-import { Project } from "../project/types/project";
+import { Project } from "../../project/types/project";
 
 export function DocItem({
   basePath,
@@ -19,11 +19,7 @@ export function DocItem({
   return (
     <Link
       href={`${basePath}/${doc.slug}`}
-      className={cn(
-        "group/doc flex flex-col gap-2 p-2",
-        "max-sm:screen-line-before max-sm:screen-line-after",
-        "sm:nth-[2n+1]:screen-line-before sm:nth-[2n+1]:screen-line-after"
-      )}
+      className={cn("group/doc flex flex-col gap-2 p-2")}
     >
       {doc.metadata.image && (
         <div className="relative select-none [&_img]:aspect-1200/630 [&_img]:rounded-xl">

@@ -10,27 +10,28 @@ import { Button } from "@/components/ui/button";
 import { Prose } from "@/components/ui/typography";
 import { InlineTOC } from "@/components/inline-toc";
 import { Separator } from "@/components/ui/separator";
-import { DocKeyboardShortcuts } from "@/features/docs/components/doc-keyboard-shortcuts";
-import { LLMCopyButtonWithViewOptions } from "@/features/docs/components/doc-page-actions";
-import { DocShareMenu } from "@/features/docs/components/doc-share-menu";
-import { Post } from "../blog/types/post";
-import { getAllProjects } from "../project/data/project";
-import { Project } from "../project/types/project";
-import { getAllPosts } from "../blog/data/posts";
-import { findNeighbour, getDocUrl } from "../process-docs";
+import { DocKeyboardShortcuts } from "@/features/blog/components/doc-keyboard-shortcuts";
+import { LLMCopyButtonWithViewOptions } from "@/features/blog/components/doc-page-actions";
+import { DocShareMenu } from "@/features/blog/components/doc-share-menu";
+import { Post } from "../types/post";
+import { findNeighbour, getAllPosts, getPostUrl } from "../data/posts";
 
 export function DocContent({
   doc,
   slug,
   basePath,
 }: {
-  doc: Post | Project;
+  doc: Post;
   slug: string;
   basePath: string;
 }) {
   const toc = getTableOfContents(doc.content);
 
-  const allDocs = basePath === "/blog" ? getAllPosts() : getAllProjects();
+  const allDocs =
+    basePath === "/blog"
+      ? getAllPosts().filter((post) => post.metadata.category === "article")
+      : getAllPosts().filter((post) => post.metadata.category === "project");
+
   const { previous, next } = findNeighbour(allDocs, slug);
   return (
     <>
@@ -58,11 +59,11 @@ export function DocContent({
 
             <div className="flex items-center gap-2">
               <LLMCopyButtonWithViewOptions
-                markdownUrl={`${getDocUrl(doc)}.mdx`}
+                markdownUrl={`${getPostUrl(doc)}.mdx`}
                 isComponent={doc.metadata.category === "components"}
               />
 
-              <DocShareMenu url={getDocUrl(doc)} />
+              <DocShareMenu url={getPostUrl(doc)} />
 
               {previous && (
                 <Button variant="outline" size="icon:sm" asChild>
@@ -149,8 +150,6 @@ export function DocContent({
           </Prose>
         </div>
       </div>
-
-      <div className="screen-line-before h-4 w-full" />
     </>
   );
 }

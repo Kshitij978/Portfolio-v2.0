@@ -1,0 +1,282 @@
+---
+title: Github Readme Avtivity Graph
+description: A dynamically generated activity graph to show your GitHub activities of last 31 days.
+category: project
+image: /images/projects/grag-icon.svg
+createdAt: 2024-01-11
+updatedAt: 2024-01-11
+githubLink: https://github.com/ashutosh00710/github-readme-activity-graph
+liveLink: https://ashutosh00710.github.io/github-readme-activity-graph/
+---
+
+Developer profiles increasingly live inside GitHub READMEs, small personal pages that act as our digital résumés. To make these profiles more expressive, I built a dynamic API that turns GitHub contribution activity into a customizable SVG graph that thousands of developers now embed directly into their READMEs.
+
+The GitHub Readme Activity Graph is an open-source tool that fetches **real-time contribution data** from the GitHub GraphQL API and transforms it into a smooth, visually appealing line chart. Unlike static badges, this graph updates dynamically and can be styled with themes, colors, titles, area fills, rounded corners, grids, and more using simple URL parameters.
+
+This blog breaks down how the system works end to end from fetching and processing contribution data to rendering SVG charts on the server and how the entire service is deployed as a lightweight, API-driven microservice that anyone can drop into their GitHub profile.
+
+## How it Works: A High-Level Overview
+
+The concept behind the GitHub Readme Activity Graph is simple yet powerful. Here's a high-level overview of how it works:
+
+1.  **Embed the Graph:** You start by embedding a special image URL in your GitHub profile's `README.md` file. This URL points to the activity graph service and includes your GitHub username as a parameter.
+
+    ```markdown
+    [![Kshitij's github activity graph](https://github-readme-activity-graph.vercel.app/graph?username=Kshitij978)](https://github.com/ashutosh00710/github-readme-activity-graph)
+    ```
+
+2.  **Service Request:** When someone views your profile, their browser makes a request to the activity graph service.
+
+3.  **Data Fetching:** The service receives the request, extracts your username, and then uses the GitHub GraphQL API to fetch your contribution data for the last 31 days (or a custom period).
+
+4.  **Graph Generation:** With the contribution data in hand, the service then uses the `node-chartist` library to generate a line chart SVG.
+
+5.  **SVG Response:** The generated SVG is then returned as the response to the initial request, which your browser then renders as an image.
+
+The result is a beautiful and dynamic graph that always shows your latest GitHub activity.
+
+## Key Features
+
+The GitHub Readme Activity Graph is packed with features that make it a versatile tool for showcasing your contributions:
+
+- **Dynamic Generation:** The graph is generated on-the-fly, so it always reflects your latest activity.
+- **Highly Customizable:** You can customize almost every aspect of the graph, from colors and themes to the title and graph style.
+- **Easy to Use:** All you need to do is add a single line of Markdown to your profile.
+- **Self-Hostable:** If you are concerned about privacy or rate limits, you can easily deploy your own instance of the service on platforms like Vercel or Replit.
+
+## Technical Deep Dive
+
+Now, let's get our hands dirty and explore the technical details of the project. The application is built with TypeScript and runs on Node.js with the Express.js framework.
+
+### Backend Setup
+
+The backend is a simple Express.js server that exposes a few endpoints. The main entry point is `src/main.ts`:
+
+```typescript
+import express, { Application } from "express";
+import cors from "cors";
+import { Handlers } from "./handlers";
+
+const app: Application = express();
+const port = process.env.PORT || 5100;
+
+app.use(express.urlencoded({ extended: false }));
+app.use(cors());
+
+const handlers = new Handlers();
+
+app.get("/", handlers.getRoot);
+//Get Graph
+app.get("/graph", handlers.getGraph);
+
+app.get("/data", handlers.getData);
+
+app.listen(port, (): void => {
+  console.log(`Server is Running on Port ${port}`);
+});
+```
+
+The most important endpoint is `/graph`, which is responsible for generating and returning the activity graph.
+
+### Data Fetching from the GitHub API
+
+To get the contribution data, the project uses the GitHub GraphQL API. The `src/fetcher.ts` file is responsible for making the API requests.
+
+The `getGraphQLQuery` method constructs the GraphQL query:
+
+```typescript
+private getGraphQLQuery(from: string, to: string) {
+    return {
+        query: `
+          query userInfo($LOGIN: String!, $FROM: DateTime!, $TO: DateTime!) {
+            user(login: $LOGIN) {
+              name
+              contributionsCollection(from: $FROM, to: $TO) {
+                contributionCalendar {
+                  weeks {
+                    contributionDays {
+                      contributionCount
+                      date
+                    }
+                  }
+                }
+              }
+            }
+          }
+        `,
+        variables: {
+            LOGIN: this.username,
+            FROM: from,
+            TO: to,
+        },
+    };
+}
+```
+
+The `fetchContributions` method then uses `axios` to make the API call and processes the response. It also handles errors like invalid usernames and API rate limits.
+
+### Graph Generation with `node-chartist`
+
+The core of the graph generation logic is in the `src/createChart.ts` file. It uses the `node-chartist` library to create the SVG chart.
+
+The `createGraph` function is a curried function that takes the chart type, options, and data as input:
+
+```typescript
+export const createGraph = R.curryN(
+  3,
+  co.wrap(function* (
+    type: string,
+    options: any,
+    data: any
+  ): Generator<any, string, any> {
+    const environment = yield chartist.initialize();
+    const window = environment.window;
+    const Chartist = environment.Chartist;
+    // process options
+    options = is.function(options) ? options(Chartist) : options;
+    if (is.not.json(options))
+      throw new TypeError(
+        "options must be an object or a function that returns an object."
+      );
+    options = Ru.defaults({ legend: false }, options);
+    // create chart
+    const chart = yield generateChart(Chartist, window, type, options, data);
+    const legend = options.legend ? generateLegend(data) : "";
+    return `${chart}${legend}`;
+  })
+);
+```
+
+### SVG Composition
+
+The final SVG is not just the chart itself. It's a complete SVG card that includes a title, a background, and styles. The `src/GraphCards.ts` and `src/svgs.ts` files are responsible for this composition.
+
+The `Card` class in `GraphCards.ts` takes the customization options and the generated chart and assembles them into a single SVG string using the `graphSvg` function from `svgs.ts`.
+
+```typescript
+// from src/svgs.ts
+export const graphSvg = (props: GraphArgs) => `
+    <svg
+        width="${props.width}"
+        height="${props.height}"
+        viewBox="0 0 ${props.width} ${props.height}"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+            <rect ... />
+
+            <style>
+                ...
+            </style>
+
+            <foreignObject ...>
+                <h1 ...>
+                    ${props.title}
+                </h1>
+            </foreignObject>
+            ${props.line}
+    </svg>
+`;
+```
+
+This approach allows for great flexibility in customizing the appearance of the graph.
+
+### Caching for Performance
+
+Making a request to the GitHub API on every page load would be inefficient and could quickly lead to rate limiting. To avoid this, the project implements a simple but effective caching strategy.
+
+In `src/utils.ts`, the `setHttpHeader` function sets the `Cache-Control` header for the response:
+
+```typescript
+public setHttpHeader(res: Response, directivesAndAge: string): void {
+    res.setHeader('Cache-Control', `${directivesAndAge}`);
+    res.set('Content-Type', 'image/svg+xml');
+}
+```
+
+When the data is fetched successfully, the `buildGraph` function in `utils.ts` sets a `max-age` of 1800 seconds (30 minutes) for the cache:
+
+```typescript
+// from src/utils.ts
+public async buildGraph(fetchCalendarData: string | UserDetails) {
+    if (typeof fetchCalendarData === 'object') {
+        // ...
+        return {
+            finalGraph: getChart,
+            header: {
+                maxAge: 'public, max-age=1800',
+            },
+        };
+    } else {
+        // ...
+    }
+}
+```
+
+This tells the browser (and any caching proxies) to cache the SVG for 30 minutes, which significantly reduces the number of requests to the GitHub API.
+
+### Error Handling
+
+The project also has robust error handling. If something goes wrong, like an invalid username or an API error, it returns a user-friendly SVG with an error message.
+
+The `invalidUserSvg` function in `src/svgs.ts` generates this error SVG:
+
+```typescript
+export const invalidUserSvg = (data: string) => `
+    <svg ...>
+        ...
+        <text x="20" y="100" fill="#bd93f9">${data}</text>
+    </svg>
+`;
+```
+
+## Extensive Customization via Query Parameters
+
+One of the best things about this project is its extensive customization options.
+You can control everything from the theme to individual colors with URL params:
+
+| Param          | Description              |
+| -------------- | ------------------------ |
+| `theme`        | Prebuilt UI themes       |
+| `bg_color`     | Background color         |
+| `line`         | Line graph color         |
+| `point`        | Contribution point color |
+| `area`         | Enable area fill         |
+| `radius`       | Card border radius       |
+| `height`       | Chart height             |
+| `custom_title` | User-defined title       |
+| `days`         | Days to display          |
+| `grid`         | Toggle chart grid        |
+
+Example:
+
+```markdown
+![Graph](https://github-readme-activity-graph.vercel.app/graph?username=example&theme=dracula&area=true&custom_title=My%20Coding%20Activity&hide_border=true)
+```
+
+This flexibility makes the service highly integrable into GitHub profiles.
+
+### Themes
+
+The project comes with a variety of pre-built themes. You can use a theme by adding the `theme` parameter to the URL:
+
+```markdown
+&theme=dracula
+```
+
+Here are a few examples of the available themes:
+
+| Theme     | Preview                                                                                                                                      |
+| --------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `dracula` | <img src="https://github-readme-activity-graph.vercel.app/graph?username=Ashutosh00710&theme=dracula&custom_title=My%20Github%20Activity" /> |
+| `gruvbox` | <img src="https://github-readme-activity-graph.vercel.app/graph?username=Ashutosh00710&theme=gruvbox&custom_title=My%20Github%20Activity" /> |
+| `react`   | <img src="https://github-readme-activity-graph.vercel.app/graph?username=Ashutosh00710&theme=react&custom_title=My%20Github%20Activity" />   |
+
+## How to Contribute
+
+The GitHub Readme Activity Graph is an open-source project, and contributions are always welcome. Whether you want to fix a bug, add a new feature, or improve the documentation, you can check out the [contributing guidelines](https://github.com/Ashutosh00710/github-readme-activity-graph/blob/main/CONTRIBUTING.md) to get started.
+
+## Conclusion
+
+The GitHub Readme Activity Graph is a fantastic example of a small but incredibly useful open-source project. It's well-designed, easy to use, and highly customizable. By taking a deep dive into its codebase, we have seen how it leverages modern web technologies to create a dynamic and engaging visualization of your GitHub activity.
+
+So, why not give it a try and add a beautiful activity graph to your own GitHub profile?

@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-import type { Post } from "@/features/docs/blog/types/post";
+import type { Post } from "@/features/blog/types/post";
 
 export function DocKeyboardShortcuts({
   basePath,
