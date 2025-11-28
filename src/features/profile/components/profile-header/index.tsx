@@ -5,12 +5,9 @@ import DecryptedText from "@/components/ui/decrypted-text";
 import * as motion from "motion/react-m";
 import { fontDmMono } from "@/lib/fonts";
 import SocialLinks from "./social-links";
-import EmailItem from "./email-item";
-import dayjs from "dayjs";
-import localizedFormat from "dayjs/plugin/localizedFormat";
 import { USER } from "../../data/user";
 import CurrentTime from "./current-time";
-dayjs.extend(localizedFormat);
+import CTA from "./cta";
 
 export function ProfileHeader() {
   return (
@@ -110,7 +107,7 @@ export function ProfileHeader() {
 
       {/* Contact Buttons */}
       <div className=" w-full flex justify-center items-center gap-4">
-        <EmailItem />
+        <CTA />
       </div>
       <motion.div
         initial={{ opacity: 0, y: 8 }}

@@ -4,17 +4,16 @@ import React from "react";
 
 import { PostItem } from "@/components/post-item";
 import { Button } from "@/components/ui/button";
-import { getAllPosts } from "@/features/docs/blog/data/posts";
+import { getAllPosts } from "@/features/blog/data/posts";
 
 import {
   Panel,
   PanelHeader,
   PanelTitle,
 } from "@/features/profile/components/panel";
+import { Post } from "../../types/blog";
 
-export function Blog() {
-  const allPosts = getAllPosts();
-
+export function Blog({ blogPosts }: { blogPosts: Post[] }) {
   return (
     <Panel id="blog">
       <PanelHeader>
@@ -28,9 +27,12 @@ export function Blog() {
         </div> */}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 ">
-          {allPosts.slice(0, 4).map((post) => (
-            <PostItem key={post.slug} post={post} />
-          ))}
+          {blogPosts
+            .filter((post) => post.metadata.category === "article")
+            .slice(0, 4)
+            .map((post) => (
+              <PostItem key={post.slug} post={post} />
+            ))}
         </div>
       </div>
 

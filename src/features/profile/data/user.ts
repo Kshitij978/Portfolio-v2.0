@@ -5,9 +5,9 @@ export const USER = {
   username: "Kshitij978",
   gender: "male",
   pronouns: "he/him",
-  bio: "Creating with code. Small details matter.",
+  bio: "Building Immersive Web Experiences",
   flipSentences: [
-    "Creating with code. Small details matter.",
+    "Building Immersive Web Experiences",
     "Frontend Developer",
     "Open Source Contributor",
   ],

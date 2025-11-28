@@ -1,3 +1,4 @@
+import { getAllPosts } from "@/features/blog/data/posts";
 import { About } from "@/features/profile/components/profile-body/about";
 import { Blog } from "@/features/profile/components/profile-body/blog";
 import { Experiences } from "@/features/profile/components/profile-body/experiences";
@@ -20,6 +21,8 @@ function Separator({ className }: { className?: string }) {
 }
 
 export default function ProfileBody() {
+  const allPosts = getAllPosts();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 8, overflow: "hidden" }}
@@ -30,11 +33,19 @@ export default function ProfileBody() {
       <Separator />
       <TeckStack />
       <Separator />
-      <Blog />
+      <Blog
+        blogPosts={allPosts.filter(
+          (post) => post.metadata.category === "article"
+        )}
+      />
       <Separator />
       <Experiences />
       <Separator />
-      <Projects />
+      <Projects
+        projects={allPosts.filter(
+          (post) => post.metadata.category === "project"
+        )}
+      />
       <Separator />
     </motion.div>
   );
