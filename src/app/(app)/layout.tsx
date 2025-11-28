@@ -7,10 +7,10 @@ import LightRays from "@/components/ui/light-rays";
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <div className="flex flex-col md:flex-row w-full  relative">
+      <div className="flex flex-col md:flex-row w-full relative">
         <Navigation />
-        <main className="max-w-screen overflow-x-hidden w-full mx-auto">
-          {children}
+        <main className="max-w-screen flex flex-col overflow-x-hidden w-full mx-auto">
+          <div className="flex-1">{children}</div>
           <SiteFooter />
         </main>
       </div>
