@@ -6,11 +6,7 @@ export const USER = {
   gender: "male",
   pronouns: "he/him",
   bio: "Building Immersive Web Experiences",
-  flipSentences: [
-    "Building Immersive Web Experiences",
-    "Frontend Developer",
-    "Open Source Contributor",
-  ],
+  flipSentences: ["Building Immersive Web Experiences", "Frontend Engineer"],
   social: [
     {
       name: "Github",
@@ -32,7 +28,7 @@ export const USER = {
   email: "kshitij.suraj@gmail.com", // base64 encoded
   website: "",
   otherWebsites: [],
-  jobTitle: "Fronted Developer",
+  jobTitle: "Frontend Engineer",
   jobs: [
     {
       title: "React Developer",
