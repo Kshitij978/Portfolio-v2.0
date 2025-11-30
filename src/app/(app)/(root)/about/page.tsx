@@ -12,12 +12,12 @@ export default function Page() {
         <h1 className="text-3xl font-semibold">This is Me</h1>
         <Separator className="h-8" />
         <Image
-          src="/images/profile.png"
+          src="/images/about-image.png"
           alt="profile"
           width={1200}
           height={1200}
           quality={100}
-          className="flex size-6 shrink-0 w-1/3 h-1/2 aspect-square object-cover filter grayscale"
+          className="flex size-6 shrink-0 w-1/3 h-1/2 aspect-square object-cover"
           priority
         />
         <Separator />
