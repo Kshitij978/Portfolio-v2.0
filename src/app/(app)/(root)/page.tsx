@@ -15,7 +15,7 @@ const Page = () => {
         }}
       />
 
-      <div className="mx-auto md:max-w-[540px]">
+      <div className="mx-auto sm:max-w-[540px] 2xl:max-w-[650px]">
         <ProfileHeader />
         <Separator />
         <ProfileBody />

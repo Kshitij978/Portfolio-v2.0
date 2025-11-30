@@ -44,7 +44,7 @@ export function DocContent({
       <div className="w-full">
         <Separator className="!h-6 w-full bg-transparent" />
 
-        <div className="md:max-w-[600px] mx-auto">
+        <div className="md:max-w-[600px] 2xl:max-w-[700px] mx-auto">
           <div className="flex items-center justify-between p-2">
             <Button
               className="h-7 gap-2 rounded-lg px-0 font-mono text-muted-foreground"
