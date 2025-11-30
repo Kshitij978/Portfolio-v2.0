@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef, useEffect } from "react";
-import { Renderer, Program, Mesh, Triangle, Vec2 } from "ogl";
+import { Mesh, Program, Renderer, Triangle, Vec2 } from "ogl";
+import { useEffect,useRef } from "react";
 
 const vertex = `
 attribute vec2 position;

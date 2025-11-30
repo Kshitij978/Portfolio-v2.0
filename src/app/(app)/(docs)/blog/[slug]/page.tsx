@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import type { BlogPosting as PageSchema, WithContext } from "schema-dts";
 
 import { SITE_INFO } from "@/config/site";
+import { DocContent } from "@/features/blog/components/doc-content";
 import {
   getAllPosts,
   getPostBySlug,
@@ -11,7 +12,6 @@ import {
 } from "@/features/blog/data/posts";
 import type { Post } from "@/features/blog/types/post";
 import { USER } from "@/features/profile/data/user";
-import { DocContent } from "@/features/blog/components/doc-content";
 
 export async function generateStaticParams() {
   const posts = getAllPosts();

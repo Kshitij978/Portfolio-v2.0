@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import dayjs from "dayjs";
+import { useEffect, useState } from "react";
 
 export const useCurrentTime = () => {
   const [time, setTime] = useState(dayjs().format("hh:mm A"));

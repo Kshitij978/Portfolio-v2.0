@@ -1,20 +1,22 @@
-import React from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
-import { getTableOfContents } from "fumadocs-core/server";
 import dayjs from "dayjs";
-import { MDX } from "@/components/mdx";
-import { Tag } from "@/components/ui/tag";
-import { Button } from "@/components/ui/button";
-import { Prose } from "@/components/ui/typography";
+import { getTableOfContents } from "fumadocs-core/server";
+import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+
 import { InlineTOC } from "@/components/inline-toc";
+import { MDX } from "@/components/mdx";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { Tag } from "@/components/ui/tag";
+import { Prose } from "@/components/ui/typography";
 import { DocKeyboardShortcuts } from "@/features/blog/components/doc-keyboard-shortcuts";
 import { LLMCopyButtonWithViewOptions } from "@/features/blog/components/doc-page-actions";
 import { DocShareMenu } from "@/features/blog/components/doc-share-menu";
-import { Post } from "../types/post";
+
 import { findNeighbour, getAllPosts, getPostUrl } from "../data/posts";
+import type { Post } from "../types/post";
 
 export function DocContent({
   doc,

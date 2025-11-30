@@ -1,4 +1,5 @@
 import { EXPERIENCES } from "@/features/profile/data/experiences";
+
 import { Panel, PanelHeader, PanelTitle } from "../../panel";
 import { ExperienceItem } from "./experience-item";
 

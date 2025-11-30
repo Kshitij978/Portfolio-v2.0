@@ -1,9 +1,10 @@
 "use server";
 
-import { EmailTemplate } from "@/components/email-template";
-import { formSchema } from "@/components/contact-me";
-import z from "zod";
 import { Resend } from "resend";
+import type z from "zod";
+
+import type { formSchema } from "@/components/contact-me";
+import { EmailTemplate } from "@/components/email-template";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 export default async function sendMail(formData: z.infer<typeof formSchema>) {

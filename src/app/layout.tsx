@@ -6,8 +6,8 @@ import type { WebSite, WithContext } from "schema-dts";
 
 import { Providers } from "@/components/providers";
 import { META_THEME_COLORS, SITE_INFO } from "@/config/site";
-import { fontDmMono, fontInter, fontSans } from "@/lib/fonts";
 import { USER } from "@/features/profile/data/user";
+import { fontDmMono, fontInter } from "@/lib/fonts";
 
 function getWebSiteJsonLd(): WithContext<WebSite> {
   return {

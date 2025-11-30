@@ -2,7 +2,8 @@
 
 import { AnimatePresence } from "motion/react";
 import * as motion from "motion/react-m";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+
 import { cn } from "@/lib/utils";
 
 export function FlipSentences({
@@ -19,12 +20,15 @@ export function FlipSentences({
     return document.visibilityState === "visible";
   }
 
-  function startInterval() {
-    intervalRef.current = setInterval(
-      () => setCurrentSentence((prev) => (prev + 1) % sentences.length),
-      2500
-    );
-  }
+  const startInterval = useCallback(
+    function () {
+      intervalRef.current = setInterval(
+        () => setCurrentSentence((prev) => (prev + 1) % sentences.length),
+        2500
+      );
+    },
+    [sentences]
+  );
 
   function clearCurrentInterval() {
     if (intervalRef.current) {
@@ -50,7 +54,7 @@ export function FlipSentences({
       clearCurrentInterval();
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
-  }, [sentences]);
+  }, [sentences, startInterval]);
 
   function getMotionProps() {
     return {

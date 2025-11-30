@@ -1,13 +1,14 @@
-import type { Post } from "@/features/blog/types/post";
 import fs from "fs";
-import path from "path";
 import matter from "gray-matter";
+import path from "path";
+
+import type { Post, PostMetadata } from "@/features/blog/types/post";
 
 function parseFrontmatter(fileContent: string) {
   const file = matter(fileContent);
 
   return {
-    metadata: file.data as Post,
+    metadata: file.data as PostMetadata,
     content: file.content,
   };
 }

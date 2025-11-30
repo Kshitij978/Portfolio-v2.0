@@ -1,13 +1,15 @@
-import { cn } from "@/lib/utils";
-import { FlipSentences } from "@/components/ui/flip-sentences";
-import { PronounceMyName } from "../pronounce-my-name";
-import DecryptedText from "@/components/ui/decrypted-text";
 import * as motion from "motion/react-m";
+
+import DecryptedText from "@/components/ui/decrypted-text";
+import { FlipSentences } from "@/components/ui/flip-sentences";
 import { fontDmMono } from "@/lib/fonts";
-import SocialLinks from "./social-links";
+import { cn } from "@/lib/utils";
+
 import { USER } from "../../data/user";
-import CurrentTime from "./current-time";
+import { PronounceMyName } from "../pronounce-my-name";
 import CTA from "./cta";
+import CurrentTime from "./current-time";
+import SocialLinks from "./social-links";
 
 export function ProfileHeader() {
   return (

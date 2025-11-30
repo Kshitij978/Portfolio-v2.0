@@ -1,8 +1,9 @@
+import Image from "next/image";
+import Link from "next/link";
+
 import { Separator } from "@/components/separator";
 import { Separator as Hr } from "@/components/ui/separator";
 import { ABOUT_USER } from "@/features/about/data/about";
-import Image from "next/image";
-import Link from "next/link";
 
 export default function Page() {
   return (

@@ -4,14 +4,13 @@ import React from "react";
 
 import { PostItem } from "@/components/post-item";
 import { Button } from "@/components/ui/button";
-import { getAllPosts } from "@/features/blog/data/posts";
-
 import {
   Panel,
   PanelHeader,
   PanelTitle,
 } from "@/features/profile/components/panel";
-import { Post } from "../../types/blog";
+
+import type { Post } from "../../types/blog";
 
 export function Blog({ blogPosts }: { blogPosts: Post[] }) {
   return (

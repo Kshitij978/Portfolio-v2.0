@@ -5,7 +5,6 @@ import React from "react";
 
 import type { Post } from "@/features/blog/types/post";
 import { cn } from "@/lib/utils";
-import { Project } from "../../project/types/project";
 
 export function DocItem({
   basePath,
@@ -13,7 +12,7 @@ export function DocItem({
   shouldPreloadImage,
 }: {
   basePath: string;
-  doc: Post | Project;
+  doc: Post;
   shouldPreloadImage?: boolean;
 }) {
   return (

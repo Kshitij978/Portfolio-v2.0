@@ -1,9 +1,9 @@
-import DynamicNav from "./dynamic-nav";
-import MainNavigation from "./main-navigation";
-import { cn } from "@/lib/utils";
-import { CommandMenu } from "./command-menu";
 import { getAllPosts } from "@/features/blog/data/posts";
+import { cn } from "@/lib/utils";
+
 import BlogNav from "./blog-nav";
+import { CommandMenu } from "./command-menu";
+import MainNavigation from "./main-navigation";
 
 export default function Navigation() {
   const posts = getAllPosts();

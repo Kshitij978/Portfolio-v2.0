@@ -1,14 +1,16 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import { ArrowRightIcon } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import type { Post } from "@/features/blog/types/post";
+import { cn } from "@/lib/utils";
+
 import { Panel, PanelHeader, PanelTitle } from "../../panel";
 import ProjectItem from "./project-item";
-import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { ArrowRightIcon } from "lucide-react";
-import { Post } from "@/features/blog/types/post";
 
 export function Projects({ projects }: { projects: Post[] }) {
   const [hovered, setHovered] = useState<number | null>(null);

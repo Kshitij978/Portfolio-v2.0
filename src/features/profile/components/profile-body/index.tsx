@@ -1,3 +1,5 @@
+import * as motion from "motion/react-m";
+
 import { getAllPosts } from "@/features/blog/data/posts";
 import { About } from "@/features/profile/components/profile-body/about";
 import { Blog } from "@/features/profile/components/profile-body/blog";
@@ -5,7 +7,6 @@ import { Experiences } from "@/features/profile/components/profile-body/experien
 import { Projects } from "@/features/profile/components/profile-body/projects";
 import { TeckStack } from "@/features/profile/components/profile-body/tech-stack";
 import { cn } from "@/lib/utils";
-import * as motion from "motion/react-m";
 
 function Separator({ className }: { className?: string }) {
   return (

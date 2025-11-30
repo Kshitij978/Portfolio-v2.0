@@ -1,13 +1,14 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Copy, Mail, Check } from "lucide-react";
-import React from "react";
-import * as motion from "motion/react-m";
 import { AnimatePresence } from "framer-motion";
-import { USER } from "../../data/user";
+import { Check,Copy, Mail } from "lucide-react";
+import * as motion from "motion/react-m";
+import React from "react";
 
 import ContactMe from "@/components/contact-me";
+import { Button } from "@/components/ui/button";
+
+import { USER } from "../../data/user";
 
 const CTA = () => {
   const [copied, setCopied] = React.useState(false);

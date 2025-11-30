@@ -1,9 +1,10 @@
+import dayjs from "dayjs";
+import type { ProfilePage as PageSchema, WithContext } from "schema-dts";
+
 import { Separator } from "@/components/separator";
 import ProfileBody from "@/features/profile/components/profile-body";
 import { ProfileHeader } from "@/features/profile/components/profile-header";
 import { USER } from "@/features/profile/data/user";
-import dayjs from "dayjs";
-import { ProfilePage as PageSchema, WithContext } from "schema-dts";
 
 const Page = () => {
   return (

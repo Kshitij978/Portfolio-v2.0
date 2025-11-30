@@ -4,14 +4,14 @@ import { notFound } from "next/navigation";
 import type { BlogPosting as PageSchema, WithContext } from "schema-dts";
 
 import { SITE_INFO } from "@/config/site";
-import { USER } from "@/features/profile/data/user";
 import { DocContent } from "@/features/blog/components/doc-content";
 import {
   getAllPosts,
   getPostBySlug,
   getPostUrl,
 } from "@/features/blog/data/posts";
-import { Post } from "@/features/blog/types/post";
+import type { Post } from "@/features/blog/types/post";
+import { USER } from "@/features/profile/data/user";
 
 export async function generateStaticParams() {
   const projects = getAllPosts();

@@ -1,20 +1,13 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 import * as z from "zod";
+
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 import {
   Form,
   FormControl,
@@ -23,8 +16,16 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { Textarea } from "@/components/ui/textarea";
 import sendMail from "@/lib/send-mail";
 
 export const formSchema = z.object({
@@ -60,7 +61,7 @@ const ContactMe = ({ children }: { children?: React.ReactNode }) => {
       toast.success("Message sent successfully!");
       setOpen(false);
       form.reset();
-    } catch (error) {
+    } catch {
       toast.error("Failed to send message. Please try again.");
     }
   }
@@ -75,7 +76,7 @@ const ContactMe = ({ children }: { children?: React.ReactNode }) => {
           <SheetTitle className="text-4xl font-bold">Get In Touch.</SheetTitle>
           <SheetDescription>
             Have a question, a project idea, or just want to say hi? Fill out
-            the form below and I'll get back to you as soon as possible.
+            the form below and I&apos;ll get back to you as soon as possible.
           </SheetDescription>
         </SheetHeader>
         <div className="mt-4">

@@ -1,7 +1,8 @@
 "use client";
 
 import { useCommandState } from "cmdk";
-import { HomeIcon, LucideProps } from "lucide-react";
+import type { LucideProps } from "lucide-react";
+import { HomeIcon } from "lucide-react";
 import {
   BriefcaseBusinessIcon,
   CornerDownLeftIcon,
@@ -28,7 +29,6 @@ import { SOCIAL_LINKS } from "@/features/profile/data/social-links";
 import { cn } from "@/lib/utils";
 
 import { Icons } from "./icons";
-import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import { SimpleTooltip } from "./ui/tooltip";
 

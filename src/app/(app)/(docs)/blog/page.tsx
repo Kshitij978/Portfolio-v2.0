@@ -1,9 +1,9 @@
 import dayjs from "dayjs";
 import type { Metadata } from "next";
 
-import { getAllPosts } from "@/features/blog/data/posts";
 import { Separator } from "@/components/separator";
 import { DocItem } from "@/features/blog/components/doc-item";
+import { getAllPosts } from "@/features/blog/data/posts";
 
 export const metadata: Metadata = {
   title: "Blog",

@@ -1,10 +1,11 @@
-import { cn } from "@/lib/utils";
-import Image from "next/image";
-import { Icons } from "@/components/icons";
-import Link from "next/link";
-import { Post } from "@/features/blog/types/post";
 import { MonitorIcon } from "lucide-react";
-import { SimpleTooltip, Tooltip } from "@/components/ui/tooltip";
+import Image from "next/image";
+import Link from "next/link";
+
+import { Icons } from "@/components/icons";
+import { SimpleTooltip } from "@/components/ui/tooltip";
+import type { Post } from "@/features/blog/types/post";
+import { cn } from "@/lib/utils";
 
 export default function ProjectItem({
   classname,

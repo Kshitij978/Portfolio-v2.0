@@ -1,15 +1,17 @@
 "use client";
 import { useMotionValueEvent, useScroll } from "motion/react";
-import { useEffect, useRef, useState } from "react";
-import { Card, CardContent } from "./ui/card";
-import { cn } from "@/lib/utils";
-import { useParams, usePathname } from "next/navigation";
-import { Post } from "@/features/blog/types/post";
+import type { ParamValue } from "next/dist/server/request/params";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+
+import type { Post } from "@/features/blog/types/post";
 import { useTailwindMedia } from "@/hooks/use-media-query";
-import { useOutsideClick } from "@/hooks/use-outside-click";
 import { useNoScroll } from "@/hooks/use-no-scroll";
-import { ParamValue } from "next/dist/server/request/params";
+import { useOutsideClick } from "@/hooks/use-outside-click";
+import { cn } from "@/lib/utils";
+
+import { Card, CardContent } from "./ui/card";
 
 export default function DynamicNav({
   data,
@@ -43,7 +45,7 @@ export default function DynamicNav({
       );
       setHeading("Projects");
     }
-  }, [pathname]);
+  }, [pathname, data]);
 
   const isMdDown = useTailwindMedia("md", "down");
 
@@ -60,7 +62,6 @@ export default function DynamicNav({
     // 3. Update the state with the calculated percentage
     setPercentageContentRead(Number(scrollPercentage.toFixed(0)));
   });
-  console.log(percentageContentRead);
 
   const currentPost =
     filteredData.length > 0

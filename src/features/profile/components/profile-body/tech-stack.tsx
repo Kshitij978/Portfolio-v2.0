@@ -2,15 +2,14 @@ import Image from "next/image";
 import React from "react";
 
 import { SimpleTooltip } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
-
-import { TECH_STACK } from "@/features/profile/data/tech-stack";
 import {
   Panel,
   PanelContent,
   PanelHeader,
   PanelTitle,
 } from "@/features/profile/components/panel";
+import { TECH_STACK } from "@/features/profile/data/tech-stack";
+import { cn } from "@/lib/utils";
 
 export function TeckStack() {
   return (

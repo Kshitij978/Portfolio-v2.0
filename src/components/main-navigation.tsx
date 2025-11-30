@@ -1,16 +1,17 @@
 "use client";
-import { SimpleTooltip } from "./ui/tooltip";
-import Link from "next/link";
-import { NavItem } from "@/features/profile/types/nav";
 import {
   HouseIcon,
   LaptopMinimalIcon,
-  MailIcon,
   PenLineIcon,
   UserRoundIcon,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
+
+import type { NavItem } from "@/features/profile/types/nav";
+import { cn } from "@/lib/utils";
+
+import { SimpleTooltip } from "./ui/tooltip";
 
 export const MAIN_NAV: NavItem[] = [
   {

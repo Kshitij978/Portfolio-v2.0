@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
 import * as motion from "motion/react-m";
+import { useEffect, useRef,useState } from "react";
 
 interface DecryptedTextProps {
   text: string;

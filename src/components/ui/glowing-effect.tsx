@@ -1,8 +1,9 @@
 "use client";
 
-import { memo, useCallback, useEffect, useRef } from "react";
-import { cn } from "@/lib/utils";
 import { animate } from "motion/react";
+import { memo, useCallback, useEffect, useRef } from "react";
+
+import { cn } from "@/lib/utils";
 
 interface GlowingEffectProps {
   blur?: number;
@@ -77,7 +78,7 @@ const GlowingEffect = memo(
 
           const currentAngle =
             parseFloat(element.style.getPropertyValue("--start")) || 0;
-          let targetAngle =
+          const targetAngle =
             (180 * Math.atan2(mouseY - center[1], mouseX - center[0])) /
               Math.PI +
             90;

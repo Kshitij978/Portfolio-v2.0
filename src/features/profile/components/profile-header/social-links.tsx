@@ -1,7 +1,9 @@
-import { SimpleTooltip } from "@/components/ui/tooltip";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { ComponentType } from "react";
+import type { ComponentType } from "react";
+
+import { SimpleTooltip } from "@/components/ui/tooltip";
+
 import { USER } from "../../data/user";
 
 const SocialLinks = () => {
@@ -33,6 +35,7 @@ const DynamicLucideIcon = ({
   const Icon = dynamic(
     async () => {
       const icons = await import("lucide-react");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return icons[iconName as keyof typeof icons] as ComponentType<any>;
     },
     {

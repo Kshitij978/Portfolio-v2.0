@@ -1,5 +1,5 @@
-import { LucideProps } from "lucide-react";
-import { ForwardRefExoticComponent, ReactNode, RefAttributes } from "react";
+import type { LucideProps } from "lucide-react";
+import type { ForwardRefExoticComponent, ReactNode, RefAttributes } from "react";
 
 export type SocialLink = {
   /** Icon image URL (absolute or path under /public) shown beside the title. */

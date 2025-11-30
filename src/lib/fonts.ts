@@ -1,7 +1,7 @@
 import {
+  DM_Mono as FontMono,
   IBM_Plex_Sans as FontSans,
   Inter as FontInter,
-  DM_Mono as FontMono,
 } from "next/font/google";
 
 export const fontSans = FontSans({

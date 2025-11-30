@@ -1,4 +1,5 @@
 import { CodepenIcon, GithubIcon, LinkedinIcon } from "lucide-react";
+
 import type { SocialLink } from "../types/social-links";
 
 export const SOCIAL_LINKS: SocialLink[] = [
