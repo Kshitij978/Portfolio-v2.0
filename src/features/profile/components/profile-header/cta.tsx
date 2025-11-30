@@ -1,13 +1,23 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Copy, Mail } from "lucide-react";
+import { Copy, Mail, Check } from "lucide-react";
 import React from "react";
 import * as motion from "motion/react-m";
+import { AnimatePresence } from "framer-motion";
 import { USER } from "../../data/user";
-import Link from "next/link";
+
+import ContactMe from "@/components/contact-me";
 
 const CTA = () => {
+  const [copied, setCopied] = React.useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(USER.email);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
     <>
       <motion.div
@@ -15,19 +25,14 @@ const CTA = () => {
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.6, ease: "easeOut" }}
       >
-        <Link
-          href={`mailto:${USER.email}`}
-          target="_blank"
-          rel="noopener noreferer"
-          passHref
-        >
+        <ContactMe>
           <Button
             variant="default"
             className="font-medium !py-5 rounded-lg !px-10 bg-zinc-50 text-zinc-800 hover:bg-zinc-50 cursor-pointer"
           >
             Contact me <Mail className="size-4" />
           </Button>
-        </Link>
+        </ContactMe>
       </motion.div>
 
       <motion.span
@@ -45,10 +50,31 @@ const CTA = () => {
       >
         <Button
           variant="outline"
-          className="font-medium !py-5 rounded-lg !px-10 cursor-pointer"
-          onClick={() => navigator.clipboard.writeText(USER.email)}
+          className="relative overflow-hidden font-medium !py-5 rounded-lg !px-10 cursor-pointer w-[165px]"
+          onClick={handleCopy}
         >
-          Copy email <Copy className="size-4" />
+          <AnimatePresence>
+            {copied && (
+              <motion.div
+                initial={{ clipPath: "polygon(0 0, 0 0, 0 0)" }}
+                animate={{ clipPath: "polygon(0 0, 300% 0, 0 300%)" }}
+                exit={{ clipPath: "polygon(100% 100%, 100% 100%, 100% 100%)" }}
+                transition={{ duration: 0.4, ease: "easeInOut" }}
+                className="absolute inset-0 border border-emerald-600/50 rounded-lg z-0"
+              />
+            )}
+          </AnimatePresence>
+          <span className="relative z-10 flex items-center gap-2">
+            {copied ? (
+              <>
+                Copied! <Check className="size-4" />
+              </>
+            ) : (
+              <>
+                Copy email <Copy className="size-4" />
+              </>
+            )}
+          </span>
         </Button>
       </motion.div>
     </>
