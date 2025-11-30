@@ -2,7 +2,7 @@ import { USER } from "@/features/profile/data/user";
 
 export const SITE_INFO = {
   name: USER.displayName,
-  url: process.env.APP_URL || "https://chanhdai.com",
+  url: process.env.APP_URL || "https://kssri.com",
   ogImage: USER.ogImage,
   description: USER.bio,
   keywords: USER.keywords,
@@ -18,7 +18,7 @@ export const SOURCE_CODE_GITHUB_URL =
   "https://github.com/Kshitij978/Portfolio-v2.0";
 
 export const UTM_PARAMS = {
-  utm_source: "chanhdai.com",
+  utm_source: "kssri.com",
   utm_medium: "portfolio_website",
   utm_campaign: "referral",
 };
