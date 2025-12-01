@@ -13,7 +13,7 @@ export default function Page() {
         <h1 className="text-3xl font-semibold">This is Me</h1>
         <Separator className="h-8" />
         <Image
-          src="/images/about-image.png"
+          src="/images/about-image.jpeg"
           alt="profile"
           width={1200}
           height={1200}

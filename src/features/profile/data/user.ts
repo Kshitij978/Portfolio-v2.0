@@ -54,7 +54,7 @@ export const USER = {
 Whether it's collaborating with cross-functional teams or leading design projects, my attention to detail and dedication to excellence has earned me a reputation for delivering exceptional results.
     `,
   avatar: "/images/avatar.png",
-  ogImage: "",
+  ogImage: "/images/og-image.jpg",
   namePronunciationUrl: "",
   keywords: "Kshitij978, Kshitij Srivastava, KS, kssri",
   dateCreated: "2025-08-05", // YYYY-MM-DD
