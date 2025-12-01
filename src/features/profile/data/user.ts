@@ -26,7 +26,7 @@ export const USER = {
   ],
   address: "Lucknow, India",
   email: "kshitij.suraj@gmail.com", // base64 encoded
-  website: "",
+  website: "https://kssri.com",
   otherWebsites: [],
   jobTitle: "Frontend Engineer",
   jobs: [

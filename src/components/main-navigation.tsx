@@ -9,10 +9,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import type { NavItem } from "@/features/profile/types/nav";
+import { useTailwindMedia } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
 
 import { SimpleTooltip } from "./ui/tooltip";
-import { useTailwindMedia } from "@/hooks/use-media-query";
 
 export const MAIN_NAV: NavItem[] = [
   {
