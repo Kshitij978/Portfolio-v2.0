@@ -1,14 +1,13 @@
-export function rehypeComponent() {
-  // Thanks @shadcn/ui
+export function remarkComponent() {
   return async () => {
-    // visit(tree, (node: UnistNode) => {
+    // visit(tree, (node: UnistNode, index, parent) => {
     //   // src prop overrides both name and fileName.
-    //   // const { value: srcPath } =
-    //   //   (getNodeAttributeByName(node, "src") as {
-    //   //     name: string;
-    //   //     value?: string;
-    //   //     type?: string;
-    //   //   }) || {};
+    //   //   const { value: srcPath } =
+    //   //     (getNodeAttributeByName(node, "src") as {
+    //   //       name: string;
+    //   //       value?: string;
+    //   //       type?: string;
+    //   //     }) || {};
     //   //   if (node.name === "ComponentSource") {
     //   //     const name = getNodeAttributeByName(node, "name")?.value as string;
     //   //     const fileName = getNodeAttributeByName(node, "fileName")?.value as
@@ -48,33 +47,18 @@ export function rehypeComponent() {
     //   //         node,
     //   //         "showLineNumbers"
     //   //       );
-    //   //       // Add code as children so that rehype can take over at build time.
-    //   //       node.children?.push(
-    //   //         u("element", {
-    //   //           tagName: "pre",
-    //   //           properties: {},
-    //   //           children: [
-    //   //             u("element", {
-    //   //               tagName: "code",
-    //   //               properties: {
-    //   //                 className: [`language-${path.extname(filePath).slice(1)}`],
-    //   //               },
-    //   //               data: {
-    //   //                 meta: [
-    //   //                   title ? `title="${title.value}"` : "",
-    //   //                   showLineNumbers ? "showLineNumbers" : "",
-    //   //                 ].join(" "),
-    //   //               },
-    //   //               children: [
-    //   //                 {
-    //   //                   type: "text",
-    //   //                   value: source,
-    //   //                 },
-    //   //               ],
-    //   //             }),
-    //   //           ],
-    //   //         })
-    //   //       );
+    //   //       const codeBlock = {
+    //   //         type: "code",
+    //   //         meta: [
+    //   //           title ? `title="${title.value}"` : "",
+    //   //           showLineNumbers ? "showLineNumbers" : "",
+    //   //         ].join(" "),
+    //   //         lang: path.extname(filePath).slice(1),
+    //   //         value: source,
+    //   //       };
+    //   //       if (parent && typeof index === "number") {
+    //   //         parent.children.splice(index, 1, codeBlock);
+    //   //       }
     //   //     } catch (error) {
     //   //       console.error(error);
     //   //     }
@@ -95,30 +79,14 @@ export function rehypeComponent() {
     //   //       // For now a simple regex should do.
     //   //       source = source.replaceAll(`@/registry/`, "@/components/");
     //   //       source = source.replaceAll("export default", "export");
-    //   //       // Add code as children so that rehype can take over at build time.
-    //   //       node.children?.push(
-    //   //         u("element", {
-    //   //           tagName: "pre",
-    //   //           properties: {},
-    //   //           children: [
-    //   //             u("element", {
-    //   //               tagName: "code",
-    //   //               properties: {
-    //   //                 className: ["language-tsx"],
-    //   //               },
-    //   //               data: {
-    //   //                 meta: "showLineNumbers",
-    //   //               },
-    //   //               children: [
-    //   //                 {
-    //   //                   type: "text",
-    //   //                   value: source,
-    //   //                 },
-    //   //               ],
-    //   //             }),
-    //   //           ],
-    //   //         })
-    //   //       );
+    //   //       const codeBlock = {
+    //   //         type: "code",
+    //   //         lang: "tsx",
+    //   //         value: source,
+    //   //       };
+    //   //       if (parent && typeof index === "number") {
+    //   //         parent.children.splice(index, 1, codeBlock);
+    //   //       }
     //   //     } catch (error) {
     //   //       console.error(error);
     //   //     }

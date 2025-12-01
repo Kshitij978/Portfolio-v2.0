@@ -170,7 +170,7 @@ export function CommandMenu({ posts }: { posts: Post[] }) {
           }}
           content={"Search"}
         >
-          <SearchIcon className="opacity-50 hover:opacity-100 cursor-pointer" />
+          <SearchIcon className="opacity-40 hover:opacity-100 cursor-pointer" />
         </SimpleTooltip>
       </div>
 
