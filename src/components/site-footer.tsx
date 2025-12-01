@@ -4,8 +4,6 @@ import * as motion from "motion/react-m";
 import { SITE_INFO } from "@/config/site";
 import { cn } from "@/lib/utils";
 
-import { Icons } from "./icons";
-
 export function SiteFooter() {
   return (
     <motion.footer
@@ -62,17 +60,6 @@ export function SiteFooter() {
         <div className={cn("  flex w-full before:z-1 after:z-1")}>
           <div className="mx-auto flex items-center justify-center gap-3  bg-background px-4">
             <a
-              className="flex font-mono text-xs font-medium text-muted-foreground"
-              href={`${SITE_INFO.url}/llms.txt`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              llms.txt
-            </a>
-
-            <Separator />
-
-            <a
               className="flex items-center text-muted-foreground transition-colors hover:text-foreground"
               href={`${SITE_INFO.url}/rss`}
               target="_blank"
@@ -85,6 +72,17 @@ export function SiteFooter() {
             <Separator />
 
             <a
+              className="flex font-mono text-xs font-medium text-muted-foreground"
+              href={`${SITE_INFO.url}/llms.txt`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              llms.txt
+            </a>
+
+            {/* <Separator />
+
+            <a
               className="flex text-muted-foreground transition-colors hover:text-foreground"
               href={
                 process.env.NEXT_PUBLIC_DMCA_URL ||
@@ -95,7 +93,7 @@ export function SiteFooter() {
             >
               <Icons.dmca className="h-5 w-auto" />
               <span className="sr-only">DMCA.com Protection Status</span>
-            </a>
+            </a> */}
           </div>
         </div>
       </div>
