@@ -31,7 +31,7 @@ export function ScrollTop({
         <Button
           key="scroll-top"
           className={cn(
-            "[--bottom:1rem] lg:[--bottom:2rem]",
+            "[--bottom:5rem] lg:[--bottom:2rem]",
             "cursor-pointer",
             "fixed right-4 bottom-[calc(var(--bottom,1rem)+env(safe-area-inset-bottom,0px))] z-50 lg:right-8",
             className
