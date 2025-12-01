@@ -12,6 +12,7 @@ import type { NavItem } from "@/features/profile/types/nav";
 import { cn } from "@/lib/utils";
 
 import { SimpleTooltip } from "./ui/tooltip";
+import { useTailwindMedia } from "@/hooks/use-media-query";
 
 export const MAIN_NAV: NavItem[] = [
   {
@@ -40,6 +41,7 @@ export const MAIN_NAV: NavItem[] = [
 
 const MainNavigation = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
+  const isMobile = useTailwindMedia("md", "down");
 
   return (
     <nav className="fixed  md:relative  z-50 w-full md:w-fit right-0 md:right-auto left-0 md:top-0 bottom-0 md:h-screen">
@@ -51,8 +53,8 @@ const MainNavigation = ({ children }: { children: React.ReactNode }) => {
         {MAIN_NAV.map(({ title, href, icon }) => (
           <SimpleTooltip
             contentProps={{
-              side: "left",
-              sideOffset: 10,
+              side: isMobile ? "top" : "left",
+              sideOffset: isMobile ? 0 : 10,
             }}
             key={title}
             content={title}
@@ -77,7 +79,18 @@ const MainNavigation = ({ children }: { children: React.ReactNode }) => {
             </Link>
           </SimpleTooltip>
         ))}
-        {children}
+        <li className="md:pb-0 md:pt-0 pb-10 pt-6">
+          <SimpleTooltip
+            contentProps={{
+              side: isMobile ? "top" : "left",
+              sideOffset: isMobile ? 0 : 10,
+            }}
+            key={"search"}
+            content={"Search"}
+          >
+            {children}
+          </SimpleTooltip>
+        </li>
       </ul>
     </nav>
   );
