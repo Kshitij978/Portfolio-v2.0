@@ -52,6 +52,12 @@ export const TECH_STACK: TechStack[] = [
     theme: true,
   },
   {
+    key: "mui",
+    title: "Material UI",
+    href: "https://mui.com/",
+    categories: ["Library", "Component Library"],
+  },
+  {
     key: "radixui",
     title: "Radix UI",
     href: "https://www.radix-ui.com/",
@@ -63,12 +69,6 @@ export const TECH_STACK: TechStack[] = [
     title: "Motion",
     href: "https://motion.dev/",
     categories: ["Library", "Animation"],
-  },
-  {
-    key: "mobx-state-tree",
-    title: "MobX-State-Tree",
-    href: "https://mobx-state-tree.js.org/",
-    categories: ["State Management"],
   },
   {
     key: "redux",
@@ -96,6 +96,18 @@ export const TECH_STACK: TechStack[] = [
     categories: ["Library", "Navigation"],
   },
   {
+    key: "jest",
+    title: "Jest",
+    href: "https://jestjs.io/",
+    categories: ["Testing"],
+  },
+  {
+    key: "testing-library",
+    title: "React Testing Library",
+    href: "https://testing-library.com/",
+    categories: ["Testing"],
+  },
+  {
     key: "git",
     title: "Git",
     href: "https://git-scm.com/",
@@ -108,9 +120,16 @@ export const TECH_STACK: TechStack[] = [
     categories: ["Containerization"],
   },
   {
-    key: "mysql",
-    title: "MySQL",
-    href: "https://www.mysql.com/",
+    key: "prisma",
+    title: "Prisma",
+    href: "https://www.prisma.io/",
+    categories: ["ORM"],
+    theme: true,
+  },
+  {
+    key: "postgres",
+    title: "PostgreSQL",
+    href: "https://www.postgresql.org/",
     categories: ["Database"],
   },
   {
@@ -119,20 +138,28 @@ export const TECH_STACK: TechStack[] = [
     href: "https://www.mongodb.com/",
     categories: ["Database"],
   },
-
-  //TODO: Add postgres
+  {
+    key: "supabase",
+    title: "Supabase",
+    href: "https://supabase.com/",
+    categories: ["Database"],
+  },
+  {
+    key: "google-analytics",
+    title: "Google Analytics",
+    href: "https://analytics.google.com/",
+    categories: ["Analytics"],
+  },
   {
     key: "figma",
     title: "Figma",
     href: "https://www.figma.com/",
     categories: ["Tools", "Design"],
   },
-
-  // TODO: Replace with Illustrator
   {
-    key: "ps",
-    title: "Adobe Photoshop",
-    href: "https://www.adobe.com/vn_en/products/photoshop.html",
+    key: "illustrator",
+    title: "Illustrator",
+    href: "https://www.adobe.com/vn_en/products/illustrator.html",
     categories: ["Tools", "Design"],
   },
   {
@@ -142,10 +169,17 @@ export const TECH_STACK: TechStack[] = [
     categories: ["Tools", "AI"],
     theme: true,
   },
-  // {
-  //   key: "zalo-mini-app",
-  //   title: "Zalo Mini App",
-  //   href: "https://mini.zalo.me/",
-  //   categories: ["Other"],
-  // },
+  {
+    key: "cursor",
+    title: "Cursor",
+    href: "https://cursor.com/",
+    categories: ["Tools", "AI"],
+    theme: true,
+  },
+  {
+    key: "huggingface",
+    title: "Hugging Face",
+    href: "https://huggingface.co/",
+    categories: ["Tools", "AI"],
+  },
 ];
