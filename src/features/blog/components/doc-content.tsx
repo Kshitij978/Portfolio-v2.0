@@ -48,17 +48,6 @@ export function DocContent({
 
         <div className="md:max-w-[600px] 2xl:max-w-[700px] mx-auto">
           <div className="flex items-center justify-between p-2">
-            <Button
-              className="h-7 gap-2 rounded-lg px-0 font-mono text-muted-foreground"
-              variant="link"
-              asChild
-            >
-              <Link href={basePath}>
-                <ArrowLeftIcon />
-                {basePath === "/blog" ? "Blog" : "Projects"}
-              </Link>
-            </Button>
-
             <div className="flex items-center gap-2">
               <LLMCopyButtonWithViewOptions
                 markdownUrl={`${getPostUrl(doc)}.mdx`}
