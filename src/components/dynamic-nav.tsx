@@ -1,9 +1,11 @@
 "use client";
-import { useMotionValueEvent, useScroll } from "motion/react";
+
+import { ArrowLeftIcon, Menu } from "lucide-react";
+import { m, type MotionValue,useScroll, useTransform } from "motion/react";
 import type { ParamValue } from "next/dist/server/request/params";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
 import type { Post } from "@/features/blog/types/post";
 import { useTailwindMedia } from "@/hooks/use-media-query";
@@ -20,140 +22,71 @@ export default function DynamicNav({
   data: Post[];
   slug: ParamValue;
 }) {
-  const [percentageContentRead, setPercentageContentRead] = useState(0);
-  const { scrollY } = useScroll();
-  const [filteredData, setFilteredData] = useState<Post[]>([]);
-  const [heading, setHeading] = useState<string | null>(null);
-  const [menuOpen, setMenuOpen] = useState(false);
-
   const pathname = usePathname();
-
+  const { scrollYProgress } = useScroll();
+  const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   useOutsideClick(menuRef, () => setMenuOpen(false));
   useNoScroll(menuOpen);
-  useEffect(() => {
-    if (pathname.startsWith("/blog")) {
-      setFilteredData(
-        data.filter((post) => post.metadata.category === "article")
-      );
-      setHeading("Blog");
-    }
-    if (pathname.startsWith("/projects")) {
-      setFilteredData(
-        data.filter((post) => post.metadata.category === "project")
-      );
-      setHeading("Projects");
-    }
-  }, [pathname, data]);
 
   const isMdDown = useTailwindMedia("md", "down");
 
-  useMotionValueEvent(scrollY, "change", (latestValue) => {
-    // 1. Get the current scroll position
-    const scrollPosition = latestValue;
+  const { filteredData, heading } = useMemo(() => {
+    if (pathname.startsWith("/blog")) {
+      return {
+        filteredData: data.filter(
+          (post) => post.metadata.category === "article"
+        ),
+        heading: "Blog",
+      };
+    }
+    if (pathname.startsWith("/projects")) {
+      return {
+        filteredData: data.filter(
+          (post) => post.metadata.category === "project"
+        ),
+        heading: "Projects",
+      };
+    }
+    return { filteredData: [], heading: "" };
+  }, [pathname, data]);
 
-    // 2. Normalize the scroll position to a percentage width from 0 to 100
-    const scrollPercentage =
-      (scrollPosition /
-        (document.documentElement.scrollHeight - window.innerHeight)) *
-      100;
+  const { currentPost, exceptCurrentPost } = useMemo(() => {
+    if (!filteredData.length)
+      return { currentPost: null, exceptCurrentPost: [] };
+    return {
+      currentPost: filteredData.find((post) => post.slug === slug) ?? null,
+      exceptCurrentPost: filteredData.filter((post) => post.slug !== slug),
+    };
+  }, [filteredData, slug]);
 
-    // 3. Update the state with the calculated percentage
-    setPercentageContentRead(Number(scrollPercentage.toFixed(0)));
-  });
-
-  const currentPost =
-    filteredData.length > 0
-      ? filteredData.find((post) => post.slug === slug)!
-      : null;
-  const exceptCurrentPost =
-    filteredData.length > 0
-      ? filteredData.filter((post) => post.slug !== slug)
-      : null;
+  const progressWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   if (isMdDown) {
     return (
-      <div className="w-full flex bg-background justify-between px-3 py-4 border-b">
-        <h1 className="text-[18px] leading-none pl-4 font-semibold text-zinc-200">
-          {heading}
-        </h1>
-        {/* hamburger */}
-        <svg
-          onClick={() => setMenuOpen(!menuOpen)}
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox=" 0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-6 h-6"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12"
-          />
-        </svg>
+      <div className="flex w-full justify-between border-b bg-background px-3 py-4">
+        <NavHeader heading={heading} pathname={pathname} />
+
+        <button onClick={() => setMenuOpen(!menuOpen)}>
+          <Menu className="h-6 w-6 text-zinc-200" />
+        </button>
+
         <div
           className={cn(
-            "backdrop-blur-sm transition-all duration-300 overflow-x-hidden fixed left-0 -translate-x-full right-0 top-0 bottom-0",
+            "fixed bottom-0 left-0 right-0 top-0 overflow-x-hidden backdrop-blur-sm transition-all duration-300 -translate-x-full",
             menuOpen && "translate-x-0"
           )}
         >
           <div
             ref={menuRef}
-            className="h-dvh w-4/5 bg-background text-zinc-200 px-3 pt-6 pb-10 flex flex-col gap-6 font-[Inter,system-ui,ui-sans-serif] tracking-tight"
+            className="flex h-dvh w-4/5 flex-col gap-6 bg-background px-3 pb-10 pt-6 font-[Inter,system-ui,ui-sans-serif] tracking-tight text-zinc-200"
           >
-            {/* NOW VIEWING label */}
-            <div className="mt-1 text-sm pl-4 font-semibold text-zinc-500 tracking-wide  select-none">
-              Now viewing
-            </div>
-
-            {/* Highlighted current item */}
-            {currentPost && (
-              <Card className="overflow-hidden min-h-[100px] z-50 p-3 relative bg-zinc-800/50 border border-zinc-700/60 rounded-xl shadow-[inset_0_0_0_1px_rgba(255,255,255,0.03)]">
-                <div
-                  style={{
-                    width: `${percentageContentRead}%`,
-                  }}
-                  className={cn(
-                    "absolute -z-10 inset-0 left-0 top-0 bottom-0 right-0 bg-zinc-700/50 "
-                  )}
-                />
-                <CardContent className="p-0">
-                  <div className="text-[15px] font-semibold text-zinc-200 leading-tight">
-                    {currentPost.metadata.title}
-                  </div>
-                  <div className="mt-2 text-[14px] leading-6 text-zinc-400">
-                    {currentPost.metadata.description}
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-            {filteredData.length > 1 && (
-              <>
-                {/* UP NEXT label */}
-                <div className="mt-2 text-base pl-4 text-zinc-500 tracking-wide font-semibold  select-none">
-                  Up next
-                </div>
-
-                {exceptCurrentPost &&
-                  exceptCurrentPost.map((post) => (
-                    <Link key={post.slug} href={`/blog/${post.slug}`}>
-                      <Card className="mt-2 relative min-h-[100px] p-3 transition-all bg-transparent duration-300 hover:bg-zinc-800/70 border-none rounded-xl hover:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.03)]">
-                        <CardContent className="p-0">
-                          <div className="text-[15px] font-semibold text-zinc-200 leading-tight">
-                            {post.metadata.title}
-                          </div>
-                          <div className="mt-2 text-[14px] leading-6 text-zinc-400">
-                            {post.metadata.description}
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </Link>
-                  ))}
-              </>
-            )}
+            <NavList
+              currentPost={currentPost}
+              exceptCurrentPost={exceptCurrentPost}
+              progressWidth={progressWidth}
+            />
           </div>
         </div>
       </div>
@@ -161,31 +94,63 @@ export default function DynamicNav({
   }
 
   return (
-    <div className="w-[360px] sticky top-0 h-full border-r">
-      <div className=" w-full text-zinc-200 px-3 pt-6 pb-10 flex flex-col gap-6 font-[Inter,system-ui,ui-sans-serif] tracking-tight">
-        {/* Heading */}
-        <h1 className="text-[18px] leading-none pl-4 font-semibold text-zinc-200">
-          {heading}
-        </h1>
+    <div className="sticky top-0 h-full w-[360px] border-r">
+      <div className="flex w-full flex-col gap-6 px-3 pb-10 pt-6 font-[Inter,system-ui,ui-sans-serif] tracking-tight text-zinc-200">
+        <NavHeader heading={heading} pathname={pathname} />
+        <NavList
+          currentPost={currentPost}
+          exceptCurrentPost={exceptCurrentPost}
+          progressWidth={progressWidth}
+        />
+      </div>
+    </div>
+  );
+}
 
-        {/* NOW VIEWING label */}
-        <div className="mt-1 text-sm pl-4 font-semibold text-zinc-500 tracking-wide  select-none">
+function NavHeader({
+  heading,
+  pathname,
+}: {
+  heading: string | null;
+  pathname: string;
+}) {
+  return (
+    <Link
+      className="flex items-center"
+      href={pathname.startsWith("/blog") ? "/blog" : "/projects"}
+    >
+      <ArrowLeftIcon className="h-5 w-5" />
+      <h1 className="pl-2 text-[18px] font-semibold leading-none text-zinc-200">
+        {heading}
+      </h1>
+    </Link>
+  );
+}
+
+function NavList({
+  currentPost,
+  exceptCurrentPost,
+  progressWidth,
+}: {
+  currentPost: Post | null;
+  exceptCurrentPost: Post[];
+  progressWidth: MotionValue<string>;
+}) {
+  return (
+    <>
+      <div className="flex flex-col gap-4">
+        <div className="mt-1 select-none pl-2 text-sm font-semibold tracking-wide text-zinc-500">
           Now viewing
         </div>
 
-        {/* Highlighted current item */}
         {currentPost && (
-          <Card className="overflow-hidden min-h-[100px] z-50 p-3 relative bg-zinc-800/50 border border-zinc-700/60 rounded-xl shadow-[inset_0_0_0_1px_rgba(255,255,255,0.03)]">
-            <div
-              style={{
-                width: `${percentageContentRead}%`,
-              }}
-              className={cn(
-                "absolute -z-10 inset-0 left-0 top-0 bottom-0 right-0 bg-zinc-700/50 "
-              )}
+          <Card className="relative z-50 min-h-[100px] overflow-hidden rounded-xl border border-zinc-700/60 bg-zinc-800/50 p-3 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.03)]">
+            <m.div
+              style={{ width: progressWidth }}
+              className="absolute bottom-0 left-0 right-0 top-0 -z-10 bg-zinc-700/50"
             />
             <CardContent className="p-0">
-              <div className="text-[15px] font-semibold text-zinc-200 leading-tight">
+              <div className="text-[15px] font-semibold leading-tight text-zinc-200">
                 {currentPost.metadata.title}
               </div>
               <div className="mt-2 text-[14px] leading-6 text-zinc-400">
@@ -194,31 +159,30 @@ export default function DynamicNav({
             </CardContent>
           </Card>
         )}
-        {filteredData.length > 1 && (
-          <>
-            {/* UP NEXT label */}
-            <div className="mt-2 text-base pl-4 text-zinc-500 tracking-wide font-semibold  select-none">
-              Up next
-            </div>
-
-            {exceptCurrentPost &&
-              exceptCurrentPost.map((post) => (
-                <Link key={post.slug} href={`/blog/${post.slug}`}>
-                  <Card className="mt-2 relative min-h-[100px] p-3 transition-all bg-transparent duration-300 hover:bg-zinc-800/70 border-none rounded-xl hover:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.03)]">
-                    <CardContent className="p-0">
-                      <div className="text-[15px] font-semibold text-zinc-200 leading-tight">
-                        {post.metadata.title}
-                      </div>
-                      <div className="mt-2 text-[14px] leading-6 text-zinc-400">
-                        {post.metadata.description}
-                      </div>
-                    </CardContent>
-                  </Card>
-                </Link>
-              ))}
-          </>
-        )}
       </div>
-    </div>
+
+      {exceptCurrentPost.length > 0 && (
+        <div className="flex flex-col gap-3">
+          <div className="mt-2 select-none pl-2 text-sm font-semibold tracking-wide text-zinc-500">
+            Up next
+          </div>
+
+          {exceptCurrentPost.map((post) => (
+            <Link key={post.slug} href={`/blog/${post.slug}`}>
+              <Card className="relative mt-2 min-h-[100px] rounded-xl border-none bg-transparent p-3 transition-all duration-300 hover:bg-zinc-800/70 hover:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.03)]">
+                <CardContent className="p-0">
+                  <div className="text-[15px] font-semibold leading-tight text-zinc-200">
+                    {post.metadata.title}
+                  </div>
+                  <div className="mt-2 text-[14px] leading-6 text-zinc-400">
+                    {post.metadata.description}
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          ))}
+        </div>
+      )}
+    </>
   );
 }
