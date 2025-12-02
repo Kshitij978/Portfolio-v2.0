@@ -9,7 +9,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     <>
       <div className="flex flex-col md:flex-row w-full relative">
         <Navigation />
-        <main className="max-w-screen flex flex-col overflow-x-hidden w-full mx-auto mb-14 sm:mb-0 ">
+        <main className="max-w-screen flex flex-col md:h-dvh h-[calc(100vh-3.5rem)] overflow-x-hidden w-full mx-auto ">
           <div className="flex-1">{children}</div>
           <SiteFooter />
         </main>
