@@ -34,7 +34,7 @@ This allocates a **contiguous** memory area of 16 bytes and pre-fills it with ze
 - **Binary Data Container:** Holds raw binary data, not traditional array elements.
 - **No Direct Access:** You cannot directly access or modify the contents of an ArrayBuffer using typical array notation (e.g., buffer[0]). Instead, views called "TypedArrays" are used to interpret and manipulate the binary data within the buffer.
 
-##What are TypedArrays?
+## What are TypedArrays?
 
 A set of array-like objects that provide a "view" into an `ArrayBuffer`. What does it mean? Well, a TypedArray doesn't store anything.
 
@@ -56,7 +56,8 @@ TypedArrays behave like regular arrays: have indexes and are iterable.
 
 Source: [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray)
 
-###Arguments:
+### Arguments:
+
 A TypedArray can be initialized with different types and they behave differently in each case. 1.`new TypedArray();`: Creates an empty typed array.
 
 2.`new TypedArray(length);` : Creates an instance of a typed array with a specified length.
@@ -125,7 +126,8 @@ To make it more clear we can utilize the properties (length, byteLength and BYTE
 2. `byteLength`: Returns the number of elements held in the typed array.
 3. `BYTES_PER_ELEMENT`: Returns a number value of the element size for the different TypedArray objects.
 
-#ArrayBuffer Use-Cases:
+# ArrayBuffer Use-Cases:
+
 Key use cases for ArrayBuffer include:
 
 - **WebGL Graphics Rendering:** Storing and managing vertex and index data for 3D graphics rendering in WebGL applications.
