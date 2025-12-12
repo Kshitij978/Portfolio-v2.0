@@ -57,7 +57,7 @@
     "jotai": "^2.13.0",
     "lucide-react": "^0.536.0",
     "motion": "^12.23.12",
-    "next": "15.4.5",
+    "next": "15.4.10",
     "next-mdx-remote": "^5.0.0",
     "next-themes": "^0.4.6",
     "ogl": "^1.0.11",
@@ -116,4 +116,3 @@
   },
   "packageManager": "pnpm@10.23.0"
 }
-
