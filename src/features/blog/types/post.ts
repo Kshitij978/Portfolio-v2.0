@@ -31,6 +31,11 @@ export type PostMetadata = {
    * Live link of the project.
    */
   liveLink?: string;
+
+  /**
+   * Icon of the project.
+   */
+  icon?: string;
 };
 
 export type Post = {
