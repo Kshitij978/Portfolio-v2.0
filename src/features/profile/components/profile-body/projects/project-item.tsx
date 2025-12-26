@@ -6,7 +6,6 @@ import { Icons } from "@/components/icons";
 import { SimpleTooltip } from "@/components/ui/tooltip";
 import type { Post } from "@/features/blog/types/post";
 import { cn } from "@/lib/utils";
-
 export default function ProjectItem({
   classname,
   project,
@@ -39,16 +38,12 @@ export default function ProjectItem({
           </div>
         </div>
 
-        <div>
-          <div className="flex gap-4 items-center mb-2">
-            <Link
-              className="hover:underline"
-              href={`/projects/${project.slug}`}
-            >
-              <h3 className="text-sm font-medium">{project.metadata.title}</h3>
-            </Link>
-            <span className="text-xs text-muted-foreground">|</span>
-            <div className="flex gap-4 self-center">
+        <div className="flex-1 min-w-0 flex flex-col gap-1">
+          <div className="flex items-start justify-between gap-4">
+            <h3 className="text-sm font-medium leading-tight">
+              {project.metadata.title}
+            </h3>
+            <div className="flex gap-3 shrink-0 mt-0.5 relative z-10">
               {project.metadata.githubLink && (
                 <SimpleTooltip
                   contentProps={{ sideOffset: 8, className: "p-1" }}
@@ -56,13 +51,12 @@ export default function ProjectItem({
                 >
                   <Link
                     href={project.metadata.githubLink}
-                    className="text-xs text-muted-foreground group flex items-center gap-1"
+                    className="text-muted-foreground hover:text-foreground transition-colors"
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
                   >
                     <Icons.github className="size-4" />
-                    {/* <span className="group-hover:underline">Github</span> */}
                   </Link>
                 </SimpleTooltip>
               )}
@@ -73,19 +67,18 @@ export default function ProjectItem({
                 >
                   <Link
                     href={project.metadata.liveLink}
-                    className="text-xs text-muted-foreground group flex items-center gap-1"
+                    className="text-muted-foreground hover:text-foreground transition-colors"
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
                   >
                     <MonitorIcon className="size-4" />
-                    {/* <span className="group-hover:underline">Live</span> */}
                   </Link>
                 </SimpleTooltip>
               )}
             </div>
           </div>
-          <p className="text-xs max-w-sm overflow-hidden truncate text-muted-foreground">
+          <p className="text-xs max-w-xs text-muted-foreground leading-relaxed">
             {project.metadata.description}
           </p>
         </div>

@@ -29,6 +29,7 @@ export default function ProfileBody() {
       initial={{ opacity: 0, y: 8, overflow: "hidden" }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ ease: "easeOut", delay: 0.6 }}
+      className="px-2 md:px-0"
     >
       <About />
       <Separator />
