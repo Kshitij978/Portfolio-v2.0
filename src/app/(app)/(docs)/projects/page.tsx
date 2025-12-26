@@ -34,7 +34,11 @@ export default function Page() {
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 ">
           {allPosts
-            .filter((post) => post.metadata.category === "project")
+            .filter(
+              (post) =>
+                post.metadata.category === "project" ||
+                post.metadata.category === "demo"
+            )
             .slice()
             .sort((a, b) =>
               dayjs(b.metadata.createdAt).diff(dayjs(a.metadata.createdAt))

@@ -15,28 +15,28 @@ export default function ProjectItem({
   project: Post;
 }) {
   return (
-    <div className={cn("w-full", classname)}>
+    <div className={cn("w-full relative", classname)}>
       <div className="flex items-center py-4 gap-4 px-1">
         <div className="p-1 self-start min-w-fit bg-input rounded-lg border">
-          {project.metadata.image ? (
-            <Image
-              src={project.metadata.image}
-              alt={project.metadata.title}
-              width={32}
-              height={32}
-              quality={100}
-              className="flex shrink-0"
-              unoptimized
-              aria-hidden="true"
-            />
-          ) : (
-            <div
-              className="flex size-6 shrink-0 items-center justify-center text-muted-foreground"
-              aria-hidden="true"
-            >
+          <div
+            className="flex size-6 shrink-0 items-center justify-center text-muted-foreground"
+            aria-hidden="true"
+          >
+            {project.metadata.icon ? (
+              <Image
+                src={project.metadata.icon}
+                alt={project.metadata.title}
+                width={32}
+                height={32}
+                quality={100}
+                className="flex shrink-0"
+                unoptimized
+                aria-hidden="true"
+              />
+            ) : (
               <Icons.project className="size-80" />
-            </div>
-          )}
+            )}
+          </div>
         </div>
 
         <div>
@@ -90,6 +90,16 @@ export default function ProjectItem({
           </p>
         </div>
       </div>
+      {project.metadata.category === "demo" ? (
+        <Link
+          href={project.metadata.liveLink!}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="absolute inset-0"
+        />
+      ) : (
+        <Link href={`/projects/${project.slug}`} className="absolute inset-0" />
+      )}
     </div>
   );
 }

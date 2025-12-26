@@ -17,11 +17,17 @@ export function DocItem({
 }) {
   return (
     <Link
-      href={`${basePath}/${doc.slug}`}
+      href={
+        doc.metadata.category === "demo"
+          ? doc.metadata.liveLink!
+          : `${basePath}/${doc.slug}`
+      }
+      target={doc.metadata.category === "demo" ? "_blank" : "_self"}
+      rel={doc.metadata.category === "demo" ? "noopener noreferrer" : ""}
       className={cn("group/doc flex flex-col gap-2 p-2")}
     >
-      {doc.metadata.image && (
-        <div className="relative select-none [&_img]:aspect-1200/630 [&_img]:rounded-xl">
+      <div className="relative select-none [&_img]:aspect-1200/630 [&_img]:rounded-xl">
+        {doc.metadata.image ? (
           <Image
             src={doc.metadata.image}
             alt={doc.metadata.title}
@@ -31,16 +37,22 @@ export function DocItem({
             priority={shouldPreloadImage}
             unoptimized
           />
+        ) : (
+          <Image
+            src={"/images/placeholder.png"}
+            alt="Placeholder"
+            width={1200}
+            height={630}
+          />
+        )}
+        <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-black/10 ring-inset dark:ring-white/10" />
 
-          <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-black/10 ring-inset dark:ring-white/10" />
-
-          {doc.metadata.new && (
-            <span className="absolute top-1.5 right-1.5 rounded-md bg-info px-1.5 font-mono text-sm font-medium text-white text-shadow-xs">
-              New
-            </span>
-          )}
-        </div>
-      )}
+        {doc.metadata.new && (
+          <span className="absolute top-1.5 right-1.5 rounded-md bg-info px-1.5 font-mono text-sm font-medium text-white text-shadow-xs">
+            New
+          </span>
+        )}
+      </div>
 
       <div className="flex flex-col gap-1 p-2">
         <h3 className="text-lg leading-snug font-medium text-balance underline-offset-4 group-hover/doc:underline">

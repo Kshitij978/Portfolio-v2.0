@@ -44,7 +44,9 @@ export default function ProfileBody() {
       <Separator />
       <Projects
         projects={allPosts.filter(
-          (post) => post.metadata.category === "project"
+          (post) =>
+            post.metadata.category === "project" ||
+            post.metadata.category === "demo"
         )}
       />
       <Separator />
