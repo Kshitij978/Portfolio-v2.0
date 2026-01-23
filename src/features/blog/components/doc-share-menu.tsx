@@ -4,7 +4,7 @@ import { LinkIcon, ShareIcon } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components//ui/button";
-import { Icons } from "@/components/icons";
+import { Icons } from "@/components/common/icons";
 import {
   DropdownMenu,
   DropdownMenuContent,

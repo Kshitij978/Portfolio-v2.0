@@ -7,6 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo, useRef, useState } from "react";
 
+import { Card, CardContent } from "@/components/ui/card";
 import type { Post } from "@/features/blog/types/post";
 import {
   getBlogPosts,
@@ -17,8 +18,6 @@ import { useTailwindMedia } from "@/hooks/use-media-query";
 import { useNoScroll } from "@/hooks/use-no-scroll";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 import { cn } from "@/lib/utils";
-
-import { Card, CardContent } from "./ui/card";
 
 export default function DynamicNav({
   data,

@@ -25,6 +25,8 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
+import { Separator } from "@/components/ui/separator";
+import { SimpleTooltip } from "@/components/ui/tooltip";
 import type { Post } from "@/features/blog/types/post";
 import {
   getBlogPosts,
@@ -35,8 +37,6 @@ import { SOCIAL_LINKS } from "@/features/profile/data/social-links";
 import { cn } from "@/lib/utils";
 
 import { Icons } from "./icons";
-import { Separator } from "./ui/separator";
-import { SimpleTooltip } from "./ui/tooltip";
 
 type CommandLinkItem = {
   title: string;

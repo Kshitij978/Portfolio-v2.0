@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { useMemo, useOptimistic, useTransition } from "react";
 
-import { Icons } from "@/components/icons";
+import { Icons } from "@/components/common/icons";
 import { buttonVariants } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -189,7 +189,7 @@ export function LLMCopyButtonWithViewOptions({
           size: "sm",
           variant: "outline",
           className: "gap-0 divide-x px-0 font-sans dark:divide-white/10",
-        })
+        }),
       )}
     >
       <LLMCopyButton markdownUrl={markdownUrl} />

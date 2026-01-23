@@ -1,6 +1,6 @@
-import Navigation from "@/components/navigation";
-import { ScrollTop } from "@/components/scroll-top";
-import { SiteFooter } from "@/components/site-footer";
+import { ScrollTop } from "@/components/common/scroll-top";
+import Navigation from "@/components/layout/navigation";
+import { SiteFooter } from "@/components/layout/site-footer";
 // import DarkVeil from "@/components/ui/dark-veil";
 import LightRays from "@/components/ui/light-rays";
 

@@ -2,15 +2,14 @@ import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
-import { PostItem } from "@/components/post-item";
+import { PostItem } from "@/components/common/post-item";
 import { Button } from "@/components/ui/button";
+import type { Post } from "@/features/blog/types/post";
 import {
   Panel,
   PanelHeader,
   PanelTitle,
 } from "@/features/profile/components/panel";
-
-import type { Post } from "@/features/blog/types/post";
 
 export function Blog({ blogPosts }: { blogPosts: Post[] }) {
   return (

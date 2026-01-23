@@ -7,10 +7,6 @@ import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 import { visit } from "unist-util-visit";
 
-import { CodeCollapsibleWrapper } from "@/components/code-collapsible-wrapper";
-import { ComponentPreview } from "@/components/component-preview";
-import { ComponentSource } from "@/components/component-source";
-import { FramedImage, YouTubeEmbed } from "@/components/embed";
 import {
   Table,
   TableBody,
@@ -30,8 +26,12 @@ import { cn } from "@/lib/utils";
 import type { NpmCommands } from "@/types/unist";
 
 import { CodeBlockCommand } from "./code-block-command";
+import { CodeCollapsibleWrapper } from "./code-collapsible-wrapper";
 import { CodeTabs } from "./code-tabs";
+import { ComponentPreview } from "./component-preview";
+import { ComponentSource } from "./component-source";
 import { CopyButton } from "./copy-button";
+import { FramedImage, YouTubeEmbed } from "./embed";
 import { getIconForLanguageExtension, Icons } from "./icons";
 
 const components: MDXRemoteProps["components"] = {

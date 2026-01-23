@@ -3,15 +3,15 @@
 import { RepeatIcon } from "lucide-react";
 import React, { useMemo, useState } from "react";
 
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { SimpleTooltip } from "@/components/ui/tooltip";
+import { Code as CodeInline } from "@/components/ui/typography";
 // import { Index } from "@/__registry__/index";
 import { cn } from "@/lib/utils";
 
 import { CodeCollapsibleWrapper } from "./code-collapsible-wrapper";
 import { OpenInV0Button } from "./open-in-v0";
-import { Button } from "./ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
-import { SimpleTooltip } from "./ui/tooltip";
-import { Code as CodeInline } from "./ui/typography";
 
 export function ComponentPreview({
   className,

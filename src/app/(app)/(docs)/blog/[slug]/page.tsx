@@ -6,8 +6,8 @@ import type { BlogPosting as PageSchema, WithContext } from "schema-dts";
 import { SITE_INFO } from "@/config/site";
 import { DocContent } from "@/features/blog/components/doc-content";
 import { getAllPosts, getPostBySlug } from "@/features/blog/data/posts";
-import { getContentUrl } from "@/features/content";
 import type { Post } from "@/features/blog/types/post";
+import { getContentUrl } from "@/features/content";
 import { USER } from "@/features/profile/data/user";
 
 export async function generateStaticParams() {

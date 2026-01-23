@@ -3,11 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
+import { GlowingEffect } from "@/components/ui/glowing-effect";
 import type { Post } from "@/features/blog/types/post";
 import { getContentUrl } from "@/features/content";
 import { cn } from "@/lib/utils";
-
-import { GlowingEffect } from "./ui/glowing-effect";
 
 export function PostItem({
   post,

@@ -8,7 +8,6 @@ import { getContentUrl, isExternalContent } from "@/features/content";
 import { cn } from "@/lib/utils";
 
 export function DocItem({
-  basePath,
   doc,
   shouldPreloadImage,
 }: {

@@ -11,7 +11,6 @@ import type {
 
 import {
   CATEGORY_CONFIG,
-  ContentCategory,
   type CategoryConfig,
   type ContentCategoryType,
 } from "./types";

@@ -1,31 +1,27 @@
 export {
-  ContentCategory,
   CATEGORY_CONFIG,
-  type ContentCategoryType,
   type CategoryConfig,
+  ContentCategory,
+  type ContentCategoryType,
 } from "./types";
-
 export {
+  // Filtering utilities
+  getBlogPosts,
   // Config & URL utilities
   getCategoryConfig,
   getContentUrl,
-  isExternalContent,
-  isCategory,
-
-  // Filtering utilities
-  getBlogPosts,
-  getProjectPosts,
-  getPostsByCategory,
   getPostsByCategories,
-
-  // Sorting utilities
-  sortByDateDesc,
-
-  // Type guards
-  isArticle,
-  isProject,
-  isDemo,
-  isComponent,
+  getPostsByCategory,
+  getProjectPosts,
   hasLinks,
   hasSkills,
+  // Type guards
+  isArticle,
+  isCategory,
+  isComponent,
+  isDemo,
+  isExternalContent,
+  isProject,
+  // Sorting utilities
+  sortByDateDesc,
 } from "./utils";

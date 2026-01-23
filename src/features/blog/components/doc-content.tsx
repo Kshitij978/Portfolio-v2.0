@@ -5,8 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-import { InlineTOC } from "@/components/inline-toc";
-import { MDX } from "@/components/mdx";
+import { InlineTOC } from "@/components/common/inline-toc";
+import { MDX } from "@/components/common/mdx";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Tag } from "@/components/ui/tag";

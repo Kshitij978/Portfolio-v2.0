@@ -2,7 +2,7 @@ import { MonitorIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-import { Icons } from "@/components/icons";
+import { Icons } from "@/components/common/icons";
 import { SimpleTooltip } from "@/components/ui/tooltip";
 import type { Post } from "@/features/blog/types/post";
 import { getContentUrl, isExternalContent } from "@/features/content";

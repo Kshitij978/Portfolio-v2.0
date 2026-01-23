@@ -1,8 +1,7 @@
+import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
-import { type LucideIcon } from "lucide-react";
 
 import { SimpleTooltip } from "@/components/ui/tooltip";
-
 import { USER } from "@/features/profile/data";
 
 const SocialLinks = () => {
