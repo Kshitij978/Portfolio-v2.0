@@ -3,8 +3,8 @@ import dayjs from "dayjs";
 import { SITE_INFO } from "@/config/site";
 import { getAllPosts } from "@/features/blog/data/posts";
 import { getLLMText } from "@/features/blog/lib/get-llm-text";
+import { getContentUrl, getProjectPosts, hasSkills } from "@/features/content";
 import { EXPERIENCES } from "@/features/profile/data/experiences";
-import { PROJECTS } from "@/features/profile/data/projects";
 import { SOCIAL_LINKS } from "@/features/profile/data/social-links";
 import { TECH_STACK } from "@/features/profile/data/tech-stack";
 import { USER } from "@/features/profile/data/user";
@@ -39,25 +39,44 @@ ${EXPERIENCES.map((item) =>
       const skills = position.skills?.map((skill) => skill).join(", ") || "N/A";
       return `### ${position.title} | ${item.companyName}\n\nDuration: ${position.employmentPeriod.start} - ${position.employmentPeriod.end || "Present"}\n\nSkills: ${skills}\n\n${position.description?.trim()}`;
     })
-    .join("\n\n")
+    .join("\n\n"),
 ).join("\n\n")}
 `;
 
-const projectsText = `## Projects
+function getProjectsText() {
+  const projects = getProjectPosts(allPosts);
 
-${PROJECTS.map((item) => {
-  const skills = `\n\nSkills: ${item.skills.join(", ")}`;
-  const description = item.description ? `\n\n${item.description.trim()}` : "";
-  return `### ${item.title}\n\nProject URL: ${item.link}${skills}${description}`;
-}).join("\n\n")}
+  const projectsMarkdown = projects
+    .map((project) => {
+      const { title, description, githubLink, liveLink } = project.metadata;
+      const url = liveLink || githubLink || getContentUrl(project);
+
+      const lines: string[] = [`### ${title}`, "", `Project URL: ${url}`];
+
+      if (hasSkills(project) && project.metadata.skills!.length > 0) {
+        lines.push("", `Skills: ${project.metadata.skills!.join(", ")}`);
+      }
+
+      if (description) {
+        lines.push("", description.trim());
+      }
+
+      return lines.join("\n");
+    })
+    .join("\n\n");
+
+  return `## Projects
+
+${projectsMarkdown}
 `;
+}
 
 async function getBlogContent() {
   const text = await Promise.all(
     allPosts.map(
       async (item) =>
-        `---\ntitle: "${item.metadata.title}"\ndescription: "${item.metadata.description}"\nlast_updated: "${dayjs(item.metadata.updatedAt).format("MMMM d, YYYY")}"\nsource: "${SITE_INFO.url}/blog/${item.slug}"\n---\n\n${await getLLMText(item)}`
-    )
+        `---\ntitle: "${item.metadata.title}"\ndescription: "${item.metadata.description}"\nlast_updated: "${dayjs(item.metadata.updatedAt).format("MMMM d, YYYY")}"\nsource: "${SITE_INFO.url}/blog/${item.slug}"\n---\n\n${await getLLMText(item)}`,
+    ),
   );
   return text.join("\n\n");
 }
@@ -71,7 +90,7 @@ async function getContent() {
 
 ${aboutText}
 ${experienceText}
-${projectsText}
+${getProjectsText()}
 
 ## Blog
 

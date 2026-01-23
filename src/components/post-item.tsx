@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-import type { Post } from "@/features/profile/types/blog";
+import type { Post } from "@/features/blog/types/post";
 import { cn } from "@/lib/utils";
 
 import { GlowingEffect } from "./ui/glowing-effect";
@@ -30,7 +30,7 @@ export function PostItem({
       <Link
         href={`/blog/${post.slug}`}
         className={cn(
-          "group/post group flex flex-col gap-2 p-2 border rounded-xl dark:bg-input/30"
+          "group/post group flex flex-col gap-2 p-2 border rounded-xl dark:bg-input/30",
         )}
       >
         {post.metadata.image && (

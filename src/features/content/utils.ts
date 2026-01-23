@@ -1,4 +1,13 @@
-import type { Post } from "@/features/blog/types/post";
+import type {
+  ArticleMetadata,
+  ComponentMetadata,
+  DemoMetadata,
+  LinkableMetadata,
+  Post,
+  PostMetadata,
+  ProjectMetadata,
+  SkillsMetadata,
+} from "@/features/blog/types/post";
 
 import {
   CATEGORY_CONFIG,
@@ -68,4 +77,38 @@ export function sortByDateDesc(posts: Post[]): Post[] {
       new Date(b.metadata.createdAt).getTime() -
       new Date(a.metadata.createdAt).getTime(),
   );
+}
+
+export function isArticle(
+  post: Post,
+): post is Post & { metadata: ArticleMetadata } {
+  return post.metadata.category === "article";
+}
+
+export function isProject(
+  post: Post,
+): post is Post & { metadata: ProjectMetadata } {
+  return post.metadata.category === "project";
+}
+
+export function isDemo(post: Post): post is Post & { metadata: DemoMetadata } {
+  return post.metadata.category === "demo" && !!post.metadata.liveLink;
+}
+
+export function isComponent(
+  post: Post,
+): post is Post & { metadata: ComponentMetadata } {
+  return post.metadata.category === "components";
+}
+
+export function hasLinks(
+  post: Post,
+): post is Post & { metadata: PostMetadata & LinkableMetadata } {
+  return isProject(post) || isDemo(post);
+}
+
+export function hasSkills(
+  post: Post,
+): post is Post & { metadata: PostMetadata & SkillsMetadata } {
+  return Array.isArray(post.metadata.skills) && post.metadata.skills.length > 0;
 }
