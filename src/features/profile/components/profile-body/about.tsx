@@ -1,4 +1,4 @@
-import { Markdown } from "@/components/markdown";
+import { Markdown } from "@/components/common/markdown";
 import { Prose } from "@/components/ui/typography";
 
 import { USER } from "../../data/user";

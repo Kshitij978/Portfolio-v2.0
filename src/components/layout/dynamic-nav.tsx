@@ -1,19 +1,23 @@
 "use client";
 
 import { ArrowLeftIcon, Menu } from "lucide-react";
-import { m, type MotionValue,useScroll, useTransform } from "motion/react";
+import { m, type MotionValue, useScroll, useTransform } from "motion/react";
 import type { ParamValue } from "next/dist/server/request/params";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo, useRef, useState } from "react";
 
+import { Card, CardContent } from "@/components/ui/card";
 import type { Post } from "@/features/blog/types/post";
+import {
+  getBlogPosts,
+  getContentUrl,
+  getProjectPosts,
+} from "@/features/content";
 import { useTailwindMedia } from "@/hooks/use-media-query";
 import { useNoScroll } from "@/hooks/use-no-scroll";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 import { cn } from "@/lib/utils";
-
-import { Card, CardContent } from "./ui/card";
 
 export default function DynamicNav({
   data,
@@ -35,17 +39,13 @@ export default function DynamicNav({
   const { filteredData, heading } = useMemo(() => {
     if (pathname.startsWith("/blog")) {
       return {
-        filteredData: data.filter(
-          (post) => post.metadata.category === "article"
-        ),
+        filteredData: getBlogPosts(data),
         heading: "Blog",
       };
     }
     if (pathname.startsWith("/projects")) {
       return {
-        filteredData: data.filter(
-          (post) => post.metadata.category === "project"
-        ),
+        filteredData: getProjectPosts(data),
         heading: "Projects",
       };
     }
@@ -75,7 +75,7 @@ export default function DynamicNav({
         <div
           className={cn(
             "fixed bottom-0 left-0 right-0 top-0 overflow-x-hidden backdrop-blur-sm transition-all duration-300 -translate-x-full",
-            menuOpen && "translate-x-0"
+            menuOpen && "translate-x-0",
           )}
         >
           <div
@@ -168,7 +168,7 @@ function NavList({
           </div>
 
           {exceptCurrentPost.map((post) => (
-            <Link key={post.slug} href={`/blog/${post.slug}`}>
+            <Link key={post.slug} href={getContentUrl(post)}>
               <Card className="relative mt-2 min-h-[100px] rounded-xl border-none bg-transparent p-3 transition-all duration-300 hover:bg-zinc-800/70 hover:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.03)]">
                 <CardContent className="p-0">
                   <div className="text-[15px] font-semibold leading-tight text-zinc-200">

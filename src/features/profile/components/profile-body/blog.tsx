@@ -2,15 +2,14 @@ import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
-import { PostItem } from "@/components/post-item";
+import { PostItem } from "@/components/common/post-item";
 import { Button } from "@/components/ui/button";
+import type { Post } from "@/features/blog/types/post";
 import {
   Panel,
   PanelHeader,
   PanelTitle,
 } from "@/features/profile/components/panel";
-
-import type { Post } from "../../types/blog";
 
 export function Blog({ blogPosts }: { blogPosts: Post[] }) {
   return (
@@ -26,12 +25,9 @@ export function Blog({ blogPosts }: { blogPosts: Post[] }) {
         </div> */}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 ">
-          {blogPosts
-            .filter((post) => post.metadata.category === "article")
-            .slice(0, 4)
-            .map((post) => (
-              <PostItem key={post.slug} post={post} />
-            ))}
+          {blogPosts.slice(0, 4).map((post) => (
+            <PostItem key={post.slug} post={post} />
+          ))}
         </div>
       </div>
 

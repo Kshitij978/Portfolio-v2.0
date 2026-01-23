@@ -6,10 +6,11 @@ import { HomeIcon } from "lucide-react";
 import {
   BriefcaseBusinessIcon,
   CornerDownLeftIcon,
+  FolderOpenIcon,
   LetterTextIcon,
+  NewspaperIcon,
   RssIcon,
   SearchIcon,
-  TextIcon,
 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -24,19 +25,24 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
+import { Separator } from "@/components/ui/separator";
+import { SimpleTooltip } from "@/components/ui/tooltip";
 import type { Post } from "@/features/blog/types/post";
+import {
+  getBlogPosts,
+  getContentUrl,
+  getProjectPosts,
+} from "@/features/content";
 import { SOCIAL_LINKS } from "@/features/profile/data/social-links";
 import { cn } from "@/lib/utils";
 
 import { Icons } from "./icons";
-import { Separator } from "./ui/separator";
-import { SimpleTooltip } from "./ui/tooltip";
 
 type CommandLinkItem = {
   title: string;
   href: string;
 
-  icon?: React.ComponentType<LucideProps> | string | React.ReactNode;
+  icon?: React.ComponentType<{ className?: string }>;
   iconImage?: string;
   keywords?: string[];
   openInNewTab?: boolean;
@@ -82,7 +88,7 @@ const FOLIO_LINKS: CommandLinkItem[] = [
 const SOCIAL_LINK_ITEMS: CommandLinkItem[] = SOCIAL_LINKS.map((item) => ({
   title: item.title,
   href: item.href,
-  icon: item.icon,
+  icon: item.icon as React.ComponentType<{ className?: string }>,
   openInNewTab: true,
 }));
 
@@ -114,7 +120,7 @@ export function CommandMenu({ posts }: { posts: Post[] }) {
           setOpen((open) => !open);
         }
       },
-      { signal }
+      { signal },
     );
 
     return () => abortController.abort();
@@ -130,7 +136,7 @@ export function CommandMenu({ posts }: { posts: Post[] }) {
         router.push(href);
       }
     },
-    [router]
+    [router],
   );
 
   //   const createThemeHandler = useCallback(
@@ -150,14 +156,14 @@ export function CommandMenu({ posts }: { posts: Post[] }) {
 
   const { blogLinks, projectsLinks } = useMemo(
     () => ({
-      blogLinks: posts
-        .filter((post) => post.metadata?.category === "blog")
-        .map(postToCommandLinkItem),
-      projectsLinks: posts
-        .filter((post) => post.metadata?.category === "project")
-        .map(postToCommandLinkItem),
+      blogLinks: getBlogPosts(posts).map((post) =>
+        postToCommandLinkItem(post, NewspaperIcon),
+      ),
+      projectsLinks: getProjectPosts(posts).map((post) =>
+        postToCommandLinkItem(post, FolderOpenIcon),
+      ),
     }),
-    [posts]
+    [posts],
   );
 
   return (
@@ -199,7 +205,6 @@ export function CommandMenu({ posts }: { posts: Post[] }) {
           <CommandLinkGroup
             heading="Blog"
             links={blogLinks}
-            fallbackIcon={TextIcon}
             onLinkSelect={handleOpenLink}
           />
 
@@ -208,7 +213,6 @@ export function CommandMenu({ posts }: { posts: Post[] }) {
           <CommandLinkGroup
             heading="Projects"
             links={projectsLinks}
-            fallbackIcon={TextIcon}
             onLinkSelect={handleOpenLink}
           />
           <CommandSeparator />
@@ -260,13 +264,13 @@ function CommandLinkGroup({
 }: {
   heading: string;
   links: CommandLinkItem[];
-  fallbackIcon?: React.ComponentType<LucideProps>;
+  fallbackIcon?: React.ComponentType<{ className?: string }>;
   onLinkSelect: (href: string, openInNewTab?: boolean) => void;
 }) {
   return (
     <CommandGroup heading={heading}>
       {links.map((link) => {
-        const Icon = link?.icon ?? fallbackIcon ?? React.Fragment;
+        const Icon = link?.icon ?? fallbackIcon;
 
         return (
           <CommandItem
@@ -283,8 +287,8 @@ function CommandLinkGroup({
                 height={16}
                 unoptimized
               />
-            ) : typeof Icon === "function" ? (
-              <Icon />
+            ) : Icon ? (
+              <Icon className="size-4" />
             ) : null}
             {link.title}
           </CommandItem>
@@ -341,7 +345,7 @@ const ENTER_ACTION_LABELS: Record<CommandKind, string> = {
 
 function CommandMenuFooter() {
   const selectedCommandKind = useCommandState(
-    (state) => COMMAND_META_MAP.get(state.value)?.commandKind ?? "page"
+    (state) => COMMAND_META_MAP.get(state.value)?.commandKind ?? "page",
   );
 
   return (
@@ -371,25 +375,24 @@ function CommandMenuKbd({ className, ...props }: React.ComponentProps<"kbd">) {
     <kbd
       className={cn(
         "pointer-events-none flex h-5 min-w-6 items-center justify-center gap-1 rounded-sm bg-black/5 px-1 font-sans text-[13px] font-normal text-muted-foreground shadow-[inset_0_-1px_2px] shadow-black/10 select-none dark:bg-white/10 dark:shadow-white/10 dark:text-shadow-xs [&_svg:not([class*='size-'])]:size-3",
-        className
+        className,
       )}
       {...props}
     />
   );
 }
 
-function postToCommandLinkItem(post: Post): CommandLinkItem {
+function postToCommandLinkItem(
+  post: Post,
+  defaultIcon: React.ComponentType<LucideProps>,
+): CommandLinkItem {
   const isComponent = post.metadata?.category === "components";
-  const isProject = post.metadata?.category === "project";
-
-  let href;
-
-  if (isProject) href = `/projects/${post.slug}`;
-  if (isComponent) href = `/components/${post.slug}`;
 
   return {
     title: post.metadata.title,
-    href: href || `/blog/${post.slug}`,
+    href: getContentUrl(post),
+    icon: post.metadata.icon ? undefined : defaultIcon,
+    iconImage: post.metadata.icon,
     keywords: isComponent ? ["component"] : undefined,
   };
 }

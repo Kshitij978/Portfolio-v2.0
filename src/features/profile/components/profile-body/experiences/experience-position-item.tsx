@@ -5,7 +5,7 @@ import {
 } from "lucide-react";
 import React from "react";
 
-import { Markdown } from "@/components/markdown";
+import { Markdown } from "@/components/common/markdown";
 import {
   Collapsible,
   CollapsibleContent,

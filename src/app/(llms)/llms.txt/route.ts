@@ -1,5 +1,6 @@
 import { SITE_INFO } from "@/config/site";
 import { getAllPosts } from "@/features/blog/data/posts";
+import { getContentUrl } from "@/features/content";
 
 const allPosts = getAllPosts();
 
@@ -13,7 +14,7 @@ const content = `# kssri.com
 
 ## Blog
 
-${allPosts.map((item) => `- [${item.metadata.title}](${SITE_INFO.url}/blog/${item.slug}.mdx): ${item.metadata.description}`).join("\n")}
+${allPosts.map((item) => `- [${item.metadata.title}](${SITE_INFO.url}${getContentUrl(item)}.mdx): ${item.metadata.description}`).join("\n")}
 `;
 
 export const dynamic = "force-static";

@@ -1,11 +1,11 @@
 "use client";
 
 import { AnimatePresence } from "framer-motion";
-import { Check,Copy, Mail } from "lucide-react";
+import { Check, Copy, Mail } from "lucide-react";
 import * as motion from "motion/react-m";
 import React from "react";
 
-import ContactMe from "@/components/contact-me";
+import ContactMe from "@/components/common/contact-me";
 import { Button } from "@/components/ui/button";
 
 import { USER } from "../../data/user";

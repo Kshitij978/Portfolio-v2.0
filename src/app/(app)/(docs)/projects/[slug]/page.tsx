@@ -5,17 +5,14 @@ import type { BlogPosting as PageSchema, WithContext } from "schema-dts";
 
 import { SITE_INFO } from "@/config/site";
 import { DocContent } from "@/features/blog/components/doc-content";
-import {
-  getAllPosts,
-  getPostBySlug,
-  getPostUrl,
-} from "@/features/blog/data/posts";
+import { getAllPosts, getPostBySlug } from "@/features/blog/data/posts";
 import type { Post } from "@/features/blog/types/post";
+import { getContentUrl, getProjectPosts } from "@/features/content";
 import { USER } from "@/features/profile/data/user";
 
 export async function generateStaticParams() {
-  const projects = getAllPosts();
-  return projects
+  const allPosts = getAllPosts();
+  return getProjectPosts(allPosts)
     .filter((project) => project.metadata.category === "project")
     .map((project) => ({
       slug: project.slug,
@@ -36,7 +33,7 @@ export async function generateMetadata({
 
   const { title, description, image, createdAt, updatedAt } = project.metadata;
 
-  const projectUrl = getPostUrl(project);
+  const projectUrl = getContentUrl(project);
   const ogImage = image || `/og/simple?title=${encodeURIComponent(title)}`;
 
   return {
@@ -73,7 +70,7 @@ function getPageJsonLd(project: Post): WithContext<PageSchema> {
     image:
       project.metadata.image ||
       `/og/simple?title=${encodeURIComponent(project.metadata.title)}`,
-    url: `${SITE_INFO.url}${getPostUrl(project)}`,
+    url: `${SITE_INFO.url}${getContentUrl(project)}`,
     datePublished: dayjs(project.metadata.createdAt).toISOString(),
     dateModified: dayjs(project.metadata.updatedAt).toISOString(),
     author: {
@@ -106,7 +103,7 @@ export default async function Page({
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(getPageJsonLd(project)).replace(
             /</g,
-            "\\u003c"
+            "\\u003c",
           ),
         }}
       />

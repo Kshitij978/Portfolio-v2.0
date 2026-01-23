@@ -1,18 +1,39 @@
-import { PROJECTS } from "@/features/profile/data/projects";
+import { getAllPosts } from "@/features/blog/data/posts";
+import { getContentUrl, getProjectPosts, hasSkills } from "@/features/content";
 
-const content = `# Projects
+function getProjectsContent() {
+  const allPosts = getAllPosts();
+  const projects = getProjectPosts(allPosts);
 
-${PROJECTS.map((item) => {
-  const skills = `\n\nSkills: ${item.skills.join(", ")}`;
-  const description = item.description ? `\n\n${item.description.trim()}` : "";
-  return `## ${item.title}\n\nProject URL: ${item.link}${skills}${description}`;
-}).join("\n\n")}
+  const projectsMarkdown = projects
+    .map((project) => {
+      const { title, description, githubLink, liveLink } = project.metadata;
+      const url = liveLink || githubLink || getContentUrl(project);
+
+      const lines: string[] = [`## ${title}`, "", `Project URL: ${url}`];
+
+      if (hasSkills(project) && project.metadata.skills!.length > 0) {
+        lines.push("", `Skills: ${project.metadata.skills!.join(", ")}`);
+      }
+
+      if (description) {
+        lines.push("", description.trim());
+      }
+
+      return lines.join("\n");
+    })
+    .join("\n\n");
+
+  return `# Projects
+
+${projectsMarkdown}
 `;
+}
 
 export const dynamic = "force-static";
 
 export async function GET() {
-  return new Response(content, {
+  return new Response(getProjectsContent(), {
     headers: {
       "Content-Type": "text/markdown;charset=utf-8",
     },

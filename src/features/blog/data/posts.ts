@@ -53,30 +53,14 @@ export function findNeighbour(docs: Post[], slug: string) {
   return { previous: null, next: null };
 }
 
-export function getPostUrl(post: Post) {
-  const isComponent = post.metadata?.category === "components";
-  const isProject = post.metadata?.category === "project";
-
-  let href;
-
-  if (isProject) href = `/projects/${post.slug}`;
-  if (isComponent) href = `/components/${post.slug}`;
-
-  return href || `/blog/${post.slug}`;
-}
-
 export function getAllPosts() {
   return getMDXData(path.join(process.cwd(), "src/features/blog/content")).sort(
     (a, b) =>
       new Date(b.metadata.createdAt).getTime() -
-      new Date(a.metadata.createdAt).getTime()
+      new Date(a.metadata.createdAt).getTime(),
   );
 }
 
 export function getPostBySlug(slug: string) {
   return getAllPosts().find((post) => post.slug === slug);
-}
-
-export function getPostsByCategory(category: string) {
-  return getAllPosts().filter((post) => post.metadata?.category === category);
 }

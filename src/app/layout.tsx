@@ -4,7 +4,7 @@ import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import type { WebSite, WithContext } from "schema-dts";
 
-import { Providers } from "@/components/providers";
+import { Providers } from "@/components/common/providers";
 import { META_THEME_COLORS, SITE_INFO } from "@/config/site";
 import { USER } from "@/features/profile/data/user";
 import { fontDmMono, fontInter } from "@/lib/fonts";
@@ -136,4 +136,3 @@ export default function RootLayout({
     </html>
   );
 }
-
