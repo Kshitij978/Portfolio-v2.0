@@ -10,7 +10,7 @@ import {
   PanelTitle,
 } from "@/features/profile/components/panel";
 
-import type { Post } from "../../types/blog";
+import type { Post } from "@/features/blog/types/post";
 
 export function Blog({ blogPosts }: { blogPosts: Post[] }) {
   return (
@@ -26,12 +26,9 @@ export function Blog({ blogPosts }: { blogPosts: Post[] }) {
         </div> */}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 ">
-          {blogPosts
-            .filter((post) => post.metadata.category === "article")
-            .slice(0, 4)
-            .map((post) => (
-              <PostItem key={post.slug} post={post} />
-            ))}
+          {blogPosts.slice(0, 4).map((post) => (
+            <PostItem key={post.slug} post={post} />
+          ))}
         </div>
       </div>
 

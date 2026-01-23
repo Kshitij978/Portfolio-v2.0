@@ -5,11 +5,8 @@ import type { BlogPosting as PageSchema, WithContext } from "schema-dts";
 
 import { SITE_INFO } from "@/config/site";
 import { DocContent } from "@/features/blog/components/doc-content";
-import {
-  getAllPosts,
-  getPostBySlug,
-  getPostUrl,
-} from "@/features/blog/data/posts";
+import { getAllPosts, getPostBySlug } from "@/features/blog/data/posts";
+import { getContentUrl } from "@/features/content";
 import type { Post } from "@/features/blog/types/post";
 import { USER } from "@/features/profile/data/user";
 
@@ -34,7 +31,7 @@ export async function generateMetadata({
 
   const { title, description, image, createdAt, updatedAt } = post.metadata;
 
-  const postUrl = getPostUrl(post);
+  const postUrl = getContentUrl(post);
   const ogImage = image || `/og/simple?title=${encodeURIComponent(title)}`;
 
   return {
@@ -71,7 +68,7 @@ function getPageJsonLd(post: Post): WithContext<PageSchema> {
     image:
       post.metadata.image ||
       `/og/simple?title=${encodeURIComponent(post.metadata.title)}`,
-    url: `${SITE_INFO.url}${getPostUrl(post)}`,
+    url: `${SITE_INFO.url}${getContentUrl(post)}`,
     datePublished: dayjs(post.metadata.createdAt).toISOString(),
     dateModified: dayjs(post.metadata.updatedAt).toISOString(),
     author: {

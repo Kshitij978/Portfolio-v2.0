@@ -25,6 +25,11 @@ import {
   CommandSeparator,
 } from "@/components/ui/command";
 import type { Post } from "@/features/blog/types/post";
+import {
+  getBlogPosts,
+  getContentUrl,
+  getProjectPosts,
+} from "@/features/content";
 import { SOCIAL_LINKS } from "@/features/profile/data/social-links";
 import { cn } from "@/lib/utils";
 
@@ -114,7 +119,7 @@ export function CommandMenu({ posts }: { posts: Post[] }) {
           setOpen((open) => !open);
         }
       },
-      { signal }
+      { signal },
     );
 
     return () => abortController.abort();
@@ -130,7 +135,7 @@ export function CommandMenu({ posts }: { posts: Post[] }) {
         router.push(href);
       }
     },
-    [router]
+    [router],
   );
 
   //   const createThemeHandler = useCallback(
@@ -150,14 +155,10 @@ export function CommandMenu({ posts }: { posts: Post[] }) {
 
   const { blogLinks, projectsLinks } = useMemo(
     () => ({
-      blogLinks: posts
-        .filter((post) => post.metadata?.category === "blog")
-        .map(postToCommandLinkItem),
-      projectsLinks: posts
-        .filter((post) => post.metadata?.category === "project")
-        .map(postToCommandLinkItem),
+      blogLinks: getBlogPosts(posts).map(postToCommandLinkItem),
+      projectsLinks: getProjectPosts(posts).map(postToCommandLinkItem),
     }),
-    [posts]
+    [posts],
   );
 
   return (
@@ -341,7 +342,7 @@ const ENTER_ACTION_LABELS: Record<CommandKind, string> = {
 
 function CommandMenuFooter() {
   const selectedCommandKind = useCommandState(
-    (state) => COMMAND_META_MAP.get(state.value)?.commandKind ?? "page"
+    (state) => COMMAND_META_MAP.get(state.value)?.commandKind ?? "page",
   );
 
   return (
@@ -371,7 +372,7 @@ function CommandMenuKbd({ className, ...props }: React.ComponentProps<"kbd">) {
     <kbd
       className={cn(
         "pointer-events-none flex h-5 min-w-6 items-center justify-center gap-1 rounded-sm bg-black/5 px-1 font-sans text-[13px] font-normal text-muted-foreground shadow-[inset_0_-1px_2px] shadow-black/10 select-none dark:bg-white/10 dark:shadow-white/10 dark:text-shadow-xs [&_svg:not([class*='size-'])]:size-3",
-        className
+        className,
       )}
       {...props}
     />
@@ -380,16 +381,10 @@ function CommandMenuKbd({ className, ...props }: React.ComponentProps<"kbd">) {
 
 function postToCommandLinkItem(post: Post): CommandLinkItem {
   const isComponent = post.metadata?.category === "components";
-  const isProject = post.metadata?.category === "project";
-
-  let href;
-
-  if (isProject) href = `/projects/${post.slug}`;
-  if (isComponent) href = `/components/${post.slug}`;
 
   return {
     title: post.metadata.title,
-    href: href || `/blog/${post.slug}`,
+    href: getContentUrl(post),
     keywords: isComponent ? ["component"] : undefined,
   };
 }

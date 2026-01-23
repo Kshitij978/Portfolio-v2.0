@@ -1,9 +1,9 @@
-import dayjs from "dayjs";
 import type { Metadata } from "next";
 
 import { Separator } from "@/components/separator";
 import { DocItem } from "@/features/blog/components/doc-item";
 import { getAllPosts } from "@/features/blog/data/posts";
+import { getBlogPosts, sortByDateDesc } from "@/features/content";
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -33,20 +33,14 @@ export default function Page() {
         </div> */}
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 ">
-          {allPosts
-            .filter((post) => post.metadata.category === "article")
-            .slice()
-            .sort((a, b) =>
-              dayjs(b.metadata.createdAt).diff(dayjs(a.metadata.createdAt))
-            )
-            .map((post, index) => (
-              <DocItem
-                basePath="/blog"
-                key={post.slug}
-                doc={post}
-                shouldPreloadImage={index <= 4}
-              />
-            ))}
+          {sortByDateDesc(getBlogPosts(allPosts)).map((post, index) => (
+            <DocItem
+              basePath="/blog"
+              key={post.slug}
+              doc={post}
+              shouldPreloadImage={index <= 4}
+            />
+          ))}
         </div>
       </div>
 

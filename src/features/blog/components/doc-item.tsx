@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 
 import type { Post } from "@/features/blog/types/post";
+import { getContentUrl, isExternalContent } from "@/features/content";
 import { cn } from "@/lib/utils";
 
 export function DocItem({
@@ -15,15 +16,13 @@ export function DocItem({
   doc: Post;
   shouldPreloadImage?: boolean;
 }) {
+  const isExternal = isExternalContent(doc);
+
   return (
     <Link
-      href={
-        doc.metadata.category === "demo"
-          ? doc.metadata.liveLink!
-          : `${basePath}/${doc.slug}`
-      }
-      target={doc.metadata.category === "demo" ? "_blank" : "_self"}
-      rel={doc.metadata.category === "demo" ? "noopener noreferrer" : ""}
+      href={getContentUrl(doc)}
+      target={isExternal ? "_blank" : "_self"}
+      rel={isExternal ? "noopener noreferrer" : ""}
       className={cn("group/doc flex flex-col gap-2 p-2")}
     >
       <div className="relative select-none [&_img]:aspect-1200/630 [&_img]:rounded-xl">

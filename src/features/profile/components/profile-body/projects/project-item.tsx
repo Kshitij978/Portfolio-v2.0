@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Icons } from "@/components/icons";
 import { SimpleTooltip } from "@/components/ui/tooltip";
 import type { Post } from "@/features/blog/types/post";
+import { getContentUrl, isExternalContent } from "@/features/content";
 import { cn } from "@/lib/utils";
 export default function ProjectItem({
   classname,
@@ -83,16 +84,12 @@ export default function ProjectItem({
           </p>
         </div>
       </div>
-      {project.metadata.category === "demo" ? (
-        <Link
-          href={project.metadata.liveLink!}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="absolute inset-0"
-        />
-      ) : (
-        <Link href={`/projects/${project.slug}`} className="absolute inset-0" />
-      )}
+      <Link
+        href={getContentUrl(project)}
+        target={isExternalContent(project) ? "_blank" : "_self"}
+        rel={isExternalContent(project) ? "noopener noreferrer" : ""}
+        className="absolute inset-0"
+      />
     </div>
   );
 }

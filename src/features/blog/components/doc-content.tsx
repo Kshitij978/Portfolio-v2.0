@@ -14,8 +14,13 @@ import { Prose } from "@/components/ui/typography";
 import { DocKeyboardShortcuts } from "@/features/blog/components/doc-keyboard-shortcuts";
 import { LLMCopyButtonWithViewOptions } from "@/features/blog/components/doc-page-actions";
 import { DocShareMenu } from "@/features/blog/components/doc-share-menu";
+import {
+  getBlogPosts,
+  getContentUrl,
+  getProjectPosts,
+} from "@/features/content";
 
-import { findNeighbour, getAllPosts, getPostUrl } from "../data/posts";
+import { findNeighbour, getAllPosts } from "../data/posts";
 import type { Post } from "../types/post";
 
 export function DocContent({
@@ -29,10 +34,9 @@ export function DocContent({
 }) {
   const toc = getTableOfContents(doc.content);
 
+  const allPosts = getAllPosts();
   const allDocs =
-    basePath === "/blog"
-      ? getAllPosts().filter((post) => post.metadata.category === "article")
-      : getAllPosts().filter((post) => post.metadata.category === "project");
+    basePath === "/blog" ? getBlogPosts(allPosts) : getProjectPosts(allPosts);
 
   const { previous, next } = findNeighbour(allDocs, slug);
   return (
@@ -50,11 +54,11 @@ export function DocContent({
           <div className="flex items-center justify-between p-2">
             <div className="flex items-center gap-2">
               <LLMCopyButtonWithViewOptions
-                markdownUrl={`${getPostUrl(doc)}.mdx`}
+                markdownUrl={`${getContentUrl(doc)}.mdx`}
                 isComponent={doc.metadata.category === "components"}
               />
 
-              <DocShareMenu url={getPostUrl(doc)} />
+              <DocShareMenu url={getContentUrl(doc)} />
 
               {previous && (
                 <Button variant="outline" size="icon:sm" asChild>
