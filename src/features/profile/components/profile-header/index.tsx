@@ -120,13 +120,13 @@ export function ProfileHeader() {
         <DecryptedText
           className={cn(
             "text-xs text-zinc-600 font-bold",
-            fontDmMono.className
+            fontDmMono.className,
           )}
           speed={50}
           sequential
           parentClassName="text-xs text-zinc-600"
           encryptedClassName="text-xs text-zinc-600"
-          text="Lucknow, India · 26.8467° N, 80.9462° E"
+          text={`${USER.address.city}, ${USER.address.country} · ${USER.address.coordinates}`}
           animateOn="view"
           revealDirection="start"
         />

@@ -10,7 +10,11 @@ export const USER = {
   bio: "Building Immersive Web Experiences",
   flipSentences: ["Building Immersive Web Experiences", "Frontend Engineer"],
   social: SOCIAL_LINKS,
-  address: "Lucknow, India",
+  address: {
+    city: "Noida",
+    country: "India",
+    coordinates: "28.5355° N, 77.3910° E",
+  },
   email: "kshitij.suraj@gmail.com", // base64 encoded
   website: "https://kssri.com",
   otherWebsites: [],
