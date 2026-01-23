@@ -15,6 +15,17 @@ const compat = new FlatCompat({
  * @type {import("eslint").Linter.Config}
  * */
 const eslintConfig = [
+  {
+    ignores: [
+      "**/node_modules/",
+      ".next/",
+      "out/",
+      "build/",
+      ".vercel/",
+      "coverage/",
+      "**/*.tsbuildinfo",
+    ],
+  },
   ...compat.extends("next/core-web-vitals", "next/typescript", "prettier"),
   {
     files: ["**/*.{ts,tsx}"],

@@ -1,7 +1,7 @@
 {
   "name": "ksfolio",
   "version": "0.1.0",
-  "description": "A minimal portfolio, component registry, and blog.",
+  "description": "A minimal portfolio, and blog.",
   "homepage": "",
   "license": "MIT",
   "author": {
@@ -24,8 +24,8 @@
     "dev": "next dev -p 1408 --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "next lint",
-    "lint:fix": "next lint --fix",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "check-types": "tsc --noEmit --pretty",
     "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
     "format:write": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
@@ -76,6 +76,14 @@
     "zod": "^3.25.76",
     "zustand": "^5.0.8"
   },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "pnpm lint:fix"
+    ],
+    "src/**/*.{js,jsx,ts,tsx,md,mdx,css,json}": [
+      "pnpm format:write"
+    ]
+  },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
@@ -111,7 +119,7 @@
     "@types/react-dom": "19.1.6"
   },
   "engines": {
-    "node": "22.x",
+    "node": ">=22.0",
     "pnpm": ">=9"
   },
   "packageManager": "pnpm@10.23.0"
