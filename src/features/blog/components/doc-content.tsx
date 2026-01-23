@@ -8,6 +8,7 @@ import React from "react";
 import { InlineTOC } from "@/components/common/inline-toc";
 import { MDX } from "@/components/common/mdx";
 import { Button } from "@/components/ui/button";
+import { FadeIn } from "@/components/ui/fade-in";
 import { Separator } from "@/components/ui/separator";
 import { Tag } from "@/components/ui/tag";
 import { Prose } from "@/components/ui/typography";
@@ -51,34 +52,36 @@ export function DocContent({
         <Separator className="!h-6 w-full bg-transparent" />
 
         <div className="md:max-w-[600px] 2xl:max-w-[700px] mx-auto">
-          <div className="flex items-center justify-between p-2">
-            <div className="flex items-center gap-2">
-              <LLMCopyButtonWithViewOptions
-                markdownUrl={`${getContentUrl(doc)}.mdx`}
-                isComponent={doc.metadata.category === "components"}
-              />
+          <FadeIn index={0}>
+            <div className="flex items-center justify-between p-2">
+              <div className="flex items-center gap-2">
+                <LLMCopyButtonWithViewOptions
+                  markdownUrl={`${getContentUrl(doc)}.mdx`}
+                  isComponent={doc.metadata.category === "components"}
+                />
 
-              <DocShareMenu url={getContentUrl(doc)} />
+                <DocShareMenu url={getContentUrl(doc)} />
 
-              {previous && (
-                <Button variant="outline" size="icon:sm" asChild>
-                  <Link href={`${basePath}/${previous.slug}`}>
-                    <ArrowLeftIcon />
-                    <span className="sr-only">Previous</span>
-                  </Link>
-                </Button>
-              )}
+                {previous && (
+                  <Button variant="outline" size="icon:sm" asChild>
+                    <Link href={`${basePath}/${previous.slug}`}>
+                      <ArrowLeftIcon />
+                      <span className="sr-only">Previous</span>
+                    </Link>
+                  </Button>
+                )}
 
-              {next && (
-                <Button variant="outline" size="icon:sm" asChild>
-                  <Link href={`${basePath}/${next.slug}`}>
-                    <span className="sr-only">Next</span>
-                    <ArrowRightIcon />
-                  </Link>
-                </Button>
-              )}
+                {next && (
+                  <Button variant="outline" size="icon:sm" asChild>
+                    <Link href={`${basePath}/${next.slug}`}>
+                      <span className="sr-only">Next</span>
+                      <ArrowRightIcon />
+                    </Link>
+                  </Button>
+                )}
+              </div>
             </div>
-          </div>
+          </FadeIn>
 
           {/* <div className="screen-line-before screen-line-after">
     <div
@@ -89,22 +92,23 @@ export function DocContent({
       )}
     />
   </div> */}
-
           <Prose className="p-2">
             {doc.metadata.image && (
-              <Image
-                src={doc.metadata.image}
-                alt={doc.metadata.title}
-                width={1200}
-                height={630}
-                quality={100}
-                priority
-                unoptimized
-                objectFit="cover"
-                className="aspect-1200/600 rounded-xl"
-              />
+              <FadeIn index={1}>
+                <Image
+                  src={doc.metadata.image}
+                  alt={doc.metadata.title}
+                  width={1200}
+                  height={630}
+                  quality={100}
+                  priority
+                  unoptimized
+                  objectFit="cover"
+                  className="aspect-1200/600 rounded-xl"
+                />
+              </FadeIn>
             )}
-            <div className="flex flex-col gap-4 mb-8">
+            <FadeIn className="flex flex-col gap-4 mb-8" index={2}>
               <span className="text-muted-foreground font-dm-mono">
                 {dayjs(doc.metadata.createdAt).format("DD/MM/YYYY")}
               </span>
@@ -127,21 +131,21 @@ export function DocContent({
                     </Tag>
                   ))}
               </div>
-            </div>
+            </FadeIn>
 
             {toc.length > 0 && (
-              <>
+              <FadeIn index={3}>
                 <Separator className="mb-4" />
 
                 <InlineTOC items={toc} />
 
                 <Separator className="mt-4" />
-              </>
+              </FadeIn>
             )}
 
-            <div>
+            <FadeIn index={4}>
               <MDX code={doc.content} />
-            </div>
+            </FadeIn>
           </Prose>
         </div>
       </div>

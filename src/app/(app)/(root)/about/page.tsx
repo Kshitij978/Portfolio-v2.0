@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Separator } from "@/components/separator";
+import { FadeIn } from "@/components/ui/fade-in";
 import { Separator as Hr } from "@/components/ui/separator";
 import { ABOUT_USER } from "@/features/about/data/about";
 
@@ -10,25 +11,30 @@ export default function Page() {
     <div className="mx-auto md:max-w-xl">
       <Separator />
       <div className=" px-4">
-        <h1 className="text-3xl font-semibold">This is Me</h1>
+        <FadeIn index={0}>
+          <h1 className="text-3xl font-semibold">This is Me</h1>
+        </FadeIn>
+
         <Separator className="h-8" />
-        <Image
-          src="/images/about-image.jpeg"
-          alt="profile"
-          width={1200}
-          height={1200}
-          quality={100}
-          className="flex size-6 shrink-0 w-1/3 h-1/2 aspect-square object-cover"
-          priority
-        />
+        <FadeIn index={1}>
+          <Image
+            src="/images/about-image.jpeg"
+            alt="profile"
+            width={1200}
+            height={1200}
+            quality={100}
+            className="flex size-6 shrink-0 w-1/3 h-1/2 aspect-square object-cover"
+            priority
+          />
+        </FadeIn>
         <Separator />
-        <div className="space-y-4">
+        <FadeIn className="space-y-4" index={2}>
           <h2 className="text-2xl">{ABOUT_USER.whoami.title}</h2>
           <p className="text-muted-foreground">{ABOUT_USER.whoami.firstPara}</p>
           <p className="text-muted-foreground">
             {ABOUT_USER.whoami.secondPara}
           </p>
-        </div>
+        </FadeIn>
         {/* <Separator /> */}
         {/* <div className="space-y-4">
           <h2 className="text-xl italic font-bold">Tools I Love</h2>
@@ -65,7 +71,7 @@ export default function Page() {
         <Separator />
         <Hr />
         <Separator />
-        <div className="space-y-4">
+        <FadeIn className="space-y-4" index={3}>
           <h2 className="text-xl italic font-bold">People I Follow</h2>
           <div className="grid grid-cols-2 gap-8">
             {ABOUT_USER.followedPeople.map((person) => (
@@ -79,18 +85,18 @@ export default function Page() {
                   {person.category.map((category, index) =>
                     index === person.category.length - 1
                       ? `#${category}`
-                      : `#${category}, `
+                      : `#${category}, `,
                   )}
                 </p>
                 <span>{person.name}</span>
               </Link>
             ))}
           </div>
-        </div>
+        </FadeIn>
         <Separator />
         <Hr />
         <Separator />
-        <div className="space-y-4">
+        <FadeIn className="space-y-4" index={4}>
           <h2 className="text-xl italic font-bold">Favorite List</h2>
           <div>
             {ABOUT_USER.favoriteList.map((fav) => (
@@ -109,7 +115,7 @@ export default function Page() {
               </div>
             ))}
           </div>
-        </div>
+        </FadeIn>
       </div>
       <Separator className="h-12" />
     </div>

@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import { useMemo, useRef, useState } from "react";
 
 import { Card, CardContent } from "@/components/ui/card";
+import { FadeIn } from "@/components/ui/fade-in";
 import type { Post } from "@/features/blog/types/post";
 import {
   getBlogPosts,
@@ -66,7 +67,9 @@ export default function DynamicNav({
   if (isMdDown) {
     return (
       <div className="flex w-full justify-between border-b bg-background px-3 py-4">
-        <NavHeader heading={heading} pathname={pathname} />
+        <FadeIn index={0}>
+          <NavHeader heading={heading} pathname={pathname} />
+        </FadeIn>
 
         <button onClick={() => setMenuOpen(!menuOpen)}>
           <Menu className="h-6 w-6 text-zinc-200" />
@@ -96,7 +99,9 @@ export default function DynamicNav({
   return (
     <div className="sticky top-0 h-full w-[360px] border-r">
       <div className="flex w-full flex-col gap-6 px-3 pb-10 pt-6 font-[Inter,system-ui,ui-sans-serif] tracking-tight text-zinc-200">
-        <NavHeader heading={heading} pathname={pathname} />
+        <FadeIn index={0}>
+          <NavHeader heading={heading} pathname={pathname} />
+        </FadeIn>
         <NavList
           currentPost={currentPost}
           exceptCurrentPost={exceptCurrentPost}
@@ -138,7 +143,7 @@ function NavList({
 }) {
   return (
     <>
-      <div className="flex flex-col gap-4">
+      <FadeIn className="flex flex-col gap-4" index={1}>
         <div className="mt-1 select-none pl-2 text-sm font-semibold tracking-wide text-zinc-500">
           Now viewing
         </div>
@@ -159,10 +164,10 @@ function NavList({
             </CardContent>
           </Card>
         )}
-      </div>
+      </FadeIn>
 
       {exceptCurrentPost.length > 0 && (
-        <div className="flex flex-col gap-3">
+        <FadeIn className="flex flex-col gap-3" index={2}>
           <div className="mt-2 select-none pl-2 text-sm font-semibold tracking-wide text-zinc-500">
             Up next
           </div>
@@ -181,7 +186,7 @@ function NavList({
               </Card>
             </Link>
           ))}
-        </div>
+        </FadeIn>
       )}
     </>
   );

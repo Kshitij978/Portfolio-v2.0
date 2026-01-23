@@ -1,6 +1,5 @@
-import * as motion from "motion/react-m";
-
 import DecryptedText from "@/components/ui/decrypted-text";
+import { FadeIn } from "@/components/ui/fade-in";
 import { FlipSentences } from "@/components/ui/flip-sentences";
 import { fontDmMono } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
@@ -14,20 +13,7 @@ import SocialLinks from "./social-links";
 export function ProfileHeader() {
   return (
     <div className=" w-full items-center justify-center flex  flex-col">
-      <motion.div
-        className="flex flex-col items-center justify-center"
-        initial={{
-          opacity: 0,
-          y: 8,
-        }}
-        animate={{
-          opacity: 1,
-          y: 0,
-        }}
-        transition={{
-          ease: "easeOut",
-        }}
-      >
+      <FadeIn className="flex flex-col items-center justify-center" index={0}>
         <div className=" min-h-20 flex items-center justify-center">
           <CurrentTime />
         </div>
@@ -38,23 +24,9 @@ export function ProfileHeader() {
           src={USER.avatar}
           fetchPriority="high"
         />
-      </motion.div>
+      </FadeIn>
 
-      <motion.div
-        initial={{
-          opacity: 0,
-          y: 8,
-        }}
-        animate={{
-          opacity: 1,
-          y: 0,
-        }}
-        transition={{
-          ease: "easeOut",
-          delay: 0.2,
-        }}
-        className=" flex w-full items-end justify-center h-14"
-      >
+      <FadeIn className=" flex w-full items-end justify-center h-14" index={1}>
         <h1 className="text-3xl font-semibold">
           {USER.displayName}
           &nbsp;
@@ -68,54 +40,30 @@ export function ProfileHeader() {
             </>
           )}
         </h1>
-      </motion.div>
-      <motion.div
-        initial={{
-          opacity: 0,
-          y: 8,
-        }}
-        animate={{
-          opacity: 1,
-          y: 0,
-        }}
-        transition={{
-          ease: "easeOut",
-          delay: 0.4,
-        }}
-        className="h-12  w-full  py-1 sm:h-auto flex justify-center"
+      </FadeIn>
+      <FadeIn
+        className="h-12 w-full py-1 sm:h-auto flex justify-center"
+        index={2}
       >
         <FlipSentences
           sentences={USER.flipSentences}
           className="text-zinc-400"
         />
-      </motion.div>
-      <motion.div
-        initial={{
-          opacity: 0,
-          y: 8,
-        }}
-        animate={{
-          opacity: 1,
-          y: 0,
-        }}
-        transition={{
-          ease: "easeOut",
-          delay: 0.6,
-        }}
+      </FadeIn>
+      <FadeIn
         className=" w-full flex justify-center items-center h-20 gap-6"
+        index={3}
       >
         <SocialLinks />
-      </motion.div>
+      </FadeIn>
 
       {/* Contact Buttons */}
       <div className=" w-full flex justify-center items-center gap-4">
         <CTA />
       </div>
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ ease: "easeOut", delay: 0.6 }}
+      <FadeIn
         className=" w-full min-h-16 flex items-center justify-center"
+        index={3}
       >
         <DecryptedText
           className={cn(
@@ -130,7 +78,7 @@ export function ProfileHeader() {
           animateOn="view"
           revealDirection="start"
         />
-      </motion.div>
+      </FadeIn>
     </div>
   );
 }
