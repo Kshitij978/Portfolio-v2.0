@@ -1,5 +1,6 @@
 import { SITE_INFO } from "@/config/site";
 import { getAllPosts } from "@/features/blog/data/posts";
+import { getContentUrl } from "@/features/content";
 
 export const dynamic = "force-static";
 
@@ -7,15 +8,17 @@ export function GET() {
   const allPosts = getAllPosts();
 
   const itemsXml = allPosts
-    .map(
-      (post) =>
-        `<item>
+    .map((post) => {
+      const url = getContentUrl(post);
+      const link = url.startsWith("http") ? url : `${SITE_INFO.url}${url}`;
+
+      return `<item>
           <title>${post.metadata.title}</title>
-          <link>${SITE_INFO.url}/blog/${post.slug}</link>
+          <link>${link}</link>
           <description>${post.metadata.description || ""}</description>
           <pubDate>${new Date(post.metadata.createdAt).toISOString()}</pubDate>
-        </item>`
-    )
+        </item>`;
+    })
     .join("\n");
 
   const rssFeed = `<?xml version="1.0" encoding="UTF-8" ?>

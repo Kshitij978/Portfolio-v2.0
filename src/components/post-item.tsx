@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 
 import type { Post } from "@/features/blog/types/post";
+import { getContentUrl } from "@/features/content";
 import { cn } from "@/lib/utils";
 
 import { GlowingEffect } from "./ui/glowing-effect";
@@ -28,7 +29,7 @@ export function PostItem({
         inactiveZone={0.01}
       />
       <Link
-        href={`/blog/${post.slug}`}
+        href={getContentUrl(post)}
         className={cn(
           "group/post group flex flex-col gap-2 p-2 border rounded-xl dark:bg-input/30",
         )}

@@ -75,7 +75,7 @@ async function getBlogContent() {
   const text = await Promise.all(
     allPosts.map(
       async (item) =>
-        `---\ntitle: "${item.metadata.title}"\ndescription: "${item.metadata.description}"\nlast_updated: "${dayjs(item.metadata.updatedAt).format("MMMM d, YYYY")}"\nsource: "${SITE_INFO.url}/blog/${item.slug}"\n---\n\n${await getLLMText(item)}`,
+        `---\ntitle: "${item.metadata.title}"\ndescription: "${item.metadata.description}"\nlast_updated: "${dayjs(item.metadata.updatedAt).format("MMMM d, YYYY")}"\nsource: "${SITE_INFO.url}${getContentUrl(item)}"\n---\n\n${await getLLMText(item)}`,
     ),
   );
   return text.join("\n\n");

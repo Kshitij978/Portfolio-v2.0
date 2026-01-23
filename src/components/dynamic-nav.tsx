@@ -8,7 +8,11 @@ import { usePathname } from "next/navigation";
 import { useMemo, useRef, useState } from "react";
 
 import type { Post } from "@/features/blog/types/post";
-import { getBlogPosts, getProjectPosts } from "@/features/content";
+import {
+  getBlogPosts,
+  getContentUrl,
+  getProjectPosts,
+} from "@/features/content";
 import { useTailwindMedia } from "@/hooks/use-media-query";
 import { useNoScroll } from "@/hooks/use-no-scroll";
 import { useOutsideClick } from "@/hooks/use-outside-click";
@@ -165,7 +169,7 @@ function NavList({
           </div>
 
           {exceptCurrentPost.map((post) => (
-            <Link key={post.slug} href={`/blog/${post.slug}`}>
+            <Link key={post.slug} href={getContentUrl(post)}>
               <Card className="relative mt-2 min-h-[100px] rounded-xl border-none bg-transparent p-3 transition-all duration-300 hover:bg-zinc-800/70 hover:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.03)]">
                 <CardContent className="p-0">
                   <div className="text-[15px] font-semibold leading-tight text-zinc-200">
