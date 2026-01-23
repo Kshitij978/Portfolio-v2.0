@@ -1,3 +1,4 @@
+import { FadeIn } from "@/components/ui/fade-in";
 import { getAllPosts } from "@/features/blog/data/posts";
 import { getBlogPosts, getProjectPosts } from "@/features/content";
 import { About } from "@/features/profile/components/profile-body/about";
@@ -5,7 +6,6 @@ import { Blog } from "@/features/profile/components/profile-body/blog";
 import { Experiences } from "@/features/profile/components/profile-body/experiences";
 import { Projects } from "@/features/profile/components/profile-body/projects";
 import { TeckStack } from "@/features/profile/components/profile-body/tech-stack";
-import { FadeIn } from "@/components/ui/fade-in";
 import { cn } from "@/lib/utils";
 
 function Separator({ className }: { className?: string }) {
