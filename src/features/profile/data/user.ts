@@ -37,11 +37,11 @@ export const USER = {
     },
   ],
   about: `
-  I'm Kshitij Srivastava, a Frontend Engineer based in India.
+  I'm Kshitij Srivastava, a Frontend Engineer based in India specializing in React and Next.js. 
 
-  With over 1.5 years of experience in the field, I take pride in delivering visually stunning and user-friendly designs that exceed client expectations.
-
-Whether it's collaborating with cross-functional teams or leading design projects, my attention to detail and dedication to excellence has earned me a reputation for delivering exceptional results.
+  I enjoy building scalable frontend architectures and delivering highly responsive, interactive user experiences. With a strong focus on performance optimization and modern web standards, I have experience developing real-time AI chat interfaces, robust web applications, and open-source tools used by thousands of developers worldwide.
+  
+  Whether it's rearchitecting complex codebases, improving core web vitals, or collaborating with teams to ship scalable products, I am driven by a passion for creating clean, maintainable code and solving complex technical challenges.
     `,
   avatar: "/images/avatar.png",
   ogImage: "/images/og-image.jpg",
