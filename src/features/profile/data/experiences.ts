@@ -15,10 +15,11 @@ export const EXPERIENCES: Experience[] = [
         },
         employmentType: "Full-time",
         icon: "code",
-        description: `- Led frontend for an AI platform (React, Next.js, Framer), building complex multi-agent AI chat systems, secure auth, dynamic forms and animations improving engagement and performance.
-- Developed core company portal features (Leave/Meeting Trackers, Worklog summaries, AI insights, File Uploads), resulting in a 50% productivity increase. 
-- Implemented wallet connections, authentication, smart contract deployments, and token exchanges across various dApps (e.g., [prepo](https://prepo.io), [bsgg](https://bs.gg), [pumpsites](https://www.pumpsites.io/board)).
-- Built SenseAi engagement features (streak system, time-tracking, speech-to-text, data visualization) boosting engagement by 80% and QuickLinks web app for efficient team resource access beyond Slack's message limits.`,
+        description: `- Built AI chat interfaces with streaming responses and multi-turn conversations using Next.js, Vercel AI SDK, and LLM API integrations, improving responsiveness and user interaction flow.
+- Owned frontend delivery of an internal PWA with offline support, push notifications, and AI-generated worklog summaries and analytics, reducing weekly manual effort by 3 to 5 hours.
+- Improved React page rendering performance by 30% through component memoization, lazy loading, and state restructuring identified via React DevTools Profiler.
+- Rebuilt the frontend architecture using Redux, Context API, and custom hooks, eliminating duplicate logic and cutting future feature development time.
+- Designed and maintained Prisma schemas and database migrations for MongoDB and PostgreSQL applications.`,
         skills: [
           "TypeScript",
           "Next.js",
@@ -70,11 +71,10 @@ export const EXPERIENCES: Experience[] = [
         },
         employmentType: "Full-time",
         icon: "code",
-        description: `- Refactored codebase, reducing size by 50% and improving maintainability.
-- Built responsive UI components with Next.js, HTML5, and TailwindCSS.
-- Integrated Google Analytics for web and mobile, increasing tracking accuracy by 25%.
-- Ensured code stability with unit tests using Jest and React Testing Library.
-- Boosted SEO and WebVitals, achieving a 90+ Lighthouse score with optimized meta tags and keywords.`,
+        description: `- Refactored React.js codebase, reducing bundle size by 50% through code splitting and lazy loading.
+- Improved core web vitals (LCP, CLS, and INP) by implementing Next.js SSR and SSG with render optimisation, pushing Lighthouse scores above 90.
+- Integrated Google Analytics 4 with custom event tracking across web and mobile platforms.
+- Wrote 60+ unit and integration tests using Jest and React Testing Library, achieving 80% code coverage across critical paths.`,
         skills: [
           "TypeScript",
           "Next.js",
@@ -113,11 +113,8 @@ export const EXPERIENCES: Experience[] = [
           end: "06.2021",
         },
         employmentType: "Internship",
-        description: `- Created OutRemote, a hiring and project management portal with automated workforce features.
-- Built responsive UI using ReactJS and Redux workflows.
-- Integrated Firebase for auth, database, and file storage.
-- Improved performance through code monitoring and debugging.
-- Developed reusable components and collaborated with a team of 6 interns.`,
+        description: `- Built a full hiring portal from scratch using React.js, Redux, and Firebase, delivering authentication, file storage, and real-time data in a 6-person team.
+- Developed 15+ reusable UI components, collaborated in 6-person team using Git workflow with code reviews.`,
         icon: "code",
         skills: [
           "TypeScript",
