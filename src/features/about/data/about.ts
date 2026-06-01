@@ -1,22 +1,15 @@
 export const ABOUT_USER = {
   whoami: {
     title:
-      "I am a creative developer, passionate about tackling challenges through design solutions that are both meaningful and captivating.",
-    firstPara: `Hey there! I graduated in Computer Science and transitioned into a role as a Frontend Developer. I started with HTML/CSS and jumped  into  JavaScript, ReactJS, TailwindCSS, and NextJS.
-  Now, I'm diving into cool stuff like WebGL, Shaders, and ThreeJS for interactive web magic.`,
-    secondPara: `When I'm not coding, catch me having a blast with Blender, Figma, and Spline, playing  video games or sketching.
-  Also, I'm a bit of a space nerd - love reading about astrophysics and always up for deep space chats. Let's create awesome things together!`,
+      "I am a frontend engineer, passionate about building performant, scalable, and immersive web experiences.",
+    firstPara: `Hey there! With a background in Computer Science, I specialize in modern web development using React, Next.js, and TypeScript. I have experience building AI-integrated applications, optimizing web performance, and delivering robust frontend architectures.`,
+    secondPara: `I am also deeply interested in creative development, exploring WebGL and Three.js to craft interactive UI. Outside of coding, I enjoy experimenting with design tools like Figma and Blender, and I have a keen interest in astrophysics. Let's build something impactful together!`,
   },
   followedPeople: [
     {
-      name: "Khyati Trehan",
-      link: "https://khyatitrehan.com",
-      category: ["Digital Art"],
-    },
-    {
-      name: "Sumit Hedge",
-      link: "https://dribbble.com/SumitH",
-      category: ["Design"],
+      name: "ThePrimeagen",
+      link: "https://www.youtube.com/@ThePrimeTimeagen",
+      category: ["Software Engineering", "Vim", "Content Creator"],
     },
     {
       name: "Codegrid",
@@ -27,6 +20,41 @@ export const ABOUT_USER = {
       name: "Grantt Abbitt",
       link: "https://www.youtube.com/@grabbitt",
       category: ["Digital Art", "3D Art"],
+    },
+    {
+      name: "Dan Abramov",
+      link: "https://overreacted.io/",
+      category: ["React", "Frontend Web Development"],
+    },
+    {
+      name: "Lee Robinson",
+      link: "https://leerob.io/",
+      category: ["Next.js", "Frontend Web Development"],
+    },
+    {
+      name: "Josh W. Comeau",
+      link: "https://www.joshwcomeau.com/",
+      category: ["Frontend Web Development", "CSS", "React"],
+    },
+    {
+      name: "Bruno Simon",
+      link: "https://bruno-simon.com/",
+      category: ["WebGL", "Three.js", "Creative Coding"],
+    },
+    {
+      name: "Guillermo Rauch",
+      link: "https://rauchg.com/",
+      category: ["Web Infrastructure", "Frontend Web Development"],
+    },
+    {
+      name: "Khyati Trehan",
+      link: "https://khyatitrehan.com",
+      category: ["Design"],
+    },
+    {
+      name: "Sumit Hedge",
+      link: "https://dribbble.com/SumitH",
+      category: ["Design"],
     },
   ],
   tools: [
@@ -55,8 +83,28 @@ export const ABOUT_USER = {
       list: [
         {
           name: "Cursor",
-          link: "https://cursor.com/home",
-          subcategory: ["Text Editor"],
+          link: "https://cursor.com/",
+          subcategory: ["AI Text Editor"],
+        },
+        {
+          name: "Antigravity",
+          link: "https://deepmind.google/technologies/",
+          subcategory: ["AI Coding Assistant"],
+        },
+        {
+          name: "v0",
+          link: "https://v0.dev/",
+          subcategory: ["Generative UI"],
+        },
+        {
+          name: "Excalidraw",
+          link: "https://excalidraw.com/",
+          subcategory: ["Whiteboarding"],
+        },
+        {
+          name: "Notion",
+          link: "https://www.notion.so/",
+          subcategory: ["Workspace"],
         },
       ],
     },
