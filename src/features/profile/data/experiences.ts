@@ -17,6 +17,7 @@ export const EXPERIENCES: Experience[] = [
         icon: "code",
         description: `- Built AI chat interfaces with streaming responses and multi-turn conversations using Next.js, Vercel AI SDK, and LLM API integrations, improving responsiveness and user interaction flow.
 - Owned frontend delivery of an internal PWA with offline support, push notifications, and AI-generated worklog summaries and analytics, reducing weekly manual effort by 3 to 5 hours.
+- Shipped SenseAI (AI powered React Native e-learning App) engagement features including a streak system, speech-to-text input, and data visualization.
 - Improved React page rendering performance by 30% through component memoization, lazy loading, and state restructuring identified via React DevTools Profiler.
 - Rebuilt the frontend architecture using Redux, Context API, and custom hooks, eliminating duplicate logic and cutting future feature development time.
 - Designed and maintained Prisma schemas and database migrations for MongoDB and PostgreSQL applications.`,
